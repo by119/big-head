@@ -2,10 +2,12 @@
   <div id="app">
       <div class="setting">
           <div class="first-pic">
+            <h5>设置图片：</h5>
               <p>
                   图片分辨率 750*750
               </p>
               <el-input v-model="input" placeholder="请输入图片数"></el-input>
+              <h5>选择图片的添加方式：</h5>
               <el-switch
                   v-model="updata"
                   on-color="#13ce66"
@@ -26,17 +28,22 @@
               <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
         </el-upload>
          <div class="">
+             <h5>设置活动时间：(例如：活动时间：2017年7月1日-7月3日)</h5>
              <el-input v-model="active_time" placeholder="请输入活动时间"></el-input>
          </div>
          <el-button @click="upheight">上移</el-button>
          <el-button @click="downheight">下移</el-button>
          <div class="last-pic">
+            <h5>设置最后一张图片的高度：</h5>
              <el-input v-model="lastPic_height" placeholder="请输入最后一张图的高度"></el-input>
+             <el-button @click="lastheight">转为rem</el-button>
          </div>
-         <el-button @click="lastheight">计算</el-button>
          <div class="last-pic">
-             <el-input v-model="investment_bg" placeholder="请输入立即投资背景颜色"></el-input>
-             <el-input v-model="investment_color" placeholder="请输入立即投资文字颜色"></el-input>
+            <h5>设置按钮：</h5>
+            <el-input v-model="investment_str" placeholder="请输入按钮文字"></el-input>
+             <el-input v-model="investment_bg" placeholder="请输入按钮背景颜色"></el-input>
+             <el-input v-model="investment_color" placeholder="请输入按钮文字颜色"></el-input>
+
          </div>
       </div>
       <div class="view">
@@ -49,7 +56,7 @@
               ></div>
               <p class="event-date" :style="'top:'+ top + 'rem'">{{active_time}}</p>
               <div class="investment" :style="'color:' + investment_color +
-              ';background-color:' + investment_bg">立即投资</div>
+              ';background-color:' + investment_bg">{{investment_str}}</div>
           </div>
       </div>
   </div>
@@ -70,6 +77,7 @@
                   'http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/2.jpg',
                   'http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/3.jpg',
                   'http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/4.jpg'],
+              investment_str: '立即投资',
               investment_bg: '#fb6c04',
               investment_color: '#fff',
               updata: true,
@@ -151,10 +159,11 @@
   }
   #app {
     font-family: Helvetica, sans-serif;
-    text-align: center;
+    // text-align: center;
     .setting{
         background-color: #F9BA03;
-        width: calc(100% - 10rem);
+        width: calc(100% - 10.67rem);
+        padding: 0 .33rem;
         position: absolute;
         top: 0;
         bottom: 0;
@@ -164,6 +173,12 @@
         }
         .last-pic{
             width: 4rem;
+        }
+        h5{
+            margin: 15px 0 5px;
+        }
+        .el-input__inner {
+          margin: 3px 0;
         }
     }
     .view{
