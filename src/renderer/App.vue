@@ -1,0 +1,179 @@
+<template>
+  <div id="app">
+      <div class="setting">
+          <div class="first-pic">
+              <p>
+                  图片分辨率 750*750
+              </p>
+              <el-input v-model="input" placeholder="请输入图片数"></el-input>
+              <el-switch
+                  v-model="updata"
+                  on-color="#13ce66"
+                  off-color="#ff4949">
+            </el-switch>
+          </div>
+          <el-input v-if="(pic__number != undefined || pic__number.length != 0) && updata == true"
+          v-for="(item,index) in pic__number" v-model="pic[index]" placeholder="请按填写图片cdn"></el-input>
+         <el-button v-if="updata == true" @click="preview">预览</el-button>
+         <el-upload
+              v-if="updata == false"
+              class="upload-demo"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              :on-preview="handlePreview"
+              :on-remove="handleRemove"
+              :file-list="fileList">
+              <el-button size="small" type="primary">点击上传</el-button>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+        </el-upload>
+         <div class="">
+             <el-input v-model="active_time" placeholder="请输入活动时间"></el-input>
+         </div>
+         <el-button @click="upheight">上移</el-button>
+         <el-button @click="downheight">下移</el-button>
+         <div class="last-pic">
+             <el-input v-model="lastPic_height" placeholder="请输入最后一张图的高度"></el-input>
+         </div>
+         <el-button @click="lastheight">计算</el-button>
+         <div class="last-pic">
+             <el-input v-model="investment_bg" placeholder="请输入立即投资背景颜色"></el-input>
+             <el-input v-model="investment_color" placeholder="请输入立即投资文字颜色"></el-input>
+         </div>
+      </div>
+      <div class="view">
+          <div class="container">
+              <div v-if="renderArr.length != 0 && index + 1 != renderArr.length"  v-for="(item,index) in pic__number" class="div__size"
+                  :style="'background-image:url('+ renderArr[index] +')'"
+              ></div>
+              <div v-else class="div__size"
+                  :style="'background-image:url('+ renderArr[index] +');height:'+lastPic_height"
+              ></div>
+              <p class="event-date" :style="'top:'+ top + 'rem'">{{active_time}}</p>
+              <div class="investment" :style="'color:' + investment_color +
+              ';background-color:' + investment_bg">立即投资</div>
+          </div>
+      </div>
+  </div>
+</template>
+
+<script>
+  export default {
+      name: 'big-head',
+      data () {
+          return {
+              input: '',
+              active_time: '活动时间：2017年7月1日-7月3日',
+              top: 5,
+              lastPic_height: '',
+              pic__number: 0,
+              pic: [],
+              renderArr: ['http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/1.jpg',
+                  'http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/2.jpg',
+                  'http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/3.jpg',
+                  'http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/4.jpg'],
+              investment_bg: '#fb6c04',
+              investment_color: '#fff',
+              updata: true,
+              fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
+              {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
+
+          };
+      },
+      components: {
+      },
+      methods: {
+          createAndDownloadFile: function (fileName, content) {
+              var aTag = document.createElement('a');
+              var blob = new Blob([content]);
+              aTag.download = fileName;
+              aTag.href = URL.createObjectURL(blob);
+              aTag.click();
+              URL.revokeObjectURL(blob);
+          },
+          preview: function () {
+              console.log(this.pic);
+              this.renderArr = this.pic;
+          },
+          lastheight: function () {
+              console.log(this.lastPic_height);
+              if (this.lastPic_height !== '') {
+                  this.lastPic_height = parseInt(this.lastPic_height) / 75 + 'rem';
+              }
+          },
+          upheight: function () {
+              console.log(this.top);
+              this.top -= 0.1;
+          },
+          downheight: function () {
+              this.top += 0.1;
+          },
+          handleRemove: function (file, fileList) {
+              console.log(file, fileList);
+          },
+          handlePreview: function (file) {
+              console.log(file);
+          }
+      },
+      watch: {
+          input: function () {
+              if (this.input !== '') {
+                  this.pic__number = parseInt(this.input);
+              }
+          },
+          active_time: function () {
+              if (this.active_time !== '') {
+                  return this.active_time;
+              }
+          },
+          investment_bg: function () {
+              if (this.investment_bg !== '') {
+                  return this.investment_bg;
+              }
+          },
+          investment_color: function () {
+              if (this.investment_color !== '') {
+                  return this.investment_color;
+              }
+          }
+      },
+
+      created: function () {
+    //   this.createAndDownloadFile('a.html', '<div>测试成功</div>')
+      }
+  };
+</script>
+
+<style lang="scss">
+  html {
+    height: 100%;
+  }
+  body {
+    height: 100%;
+  }
+  #app {
+    font-family: Helvetica, sans-serif;
+    text-align: center;
+    .setting{
+        background-color: #F9BA03;
+        width: calc(100% - 10rem);
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        .first-pic{
+            width: 3rem;
+        }
+        .last-pic{
+            width: 4rem;
+        }
+    }
+    .view{
+        width: 10rem;
+        background-color: #fff;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+    }
+  }
+
+</style>
