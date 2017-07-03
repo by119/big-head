@@ -17,22 +17,43 @@
           <el-input v-if="(pic__number != undefined || pic__number.length != 0) && updata == true"
           v-for="(item,index) in pic__number" v-model="pic[index]" placeholder="请按填写图片cdn"></el-input>
          <el-button v-if="updata == true" @click="preview">预览</el-button>
-         <el-upload
+         <!-- <el-upload
               v-if="updata == false"
               class="upload-demo"
               action="https://jsonplaceholder.typicode.com/posts/"
               :on-preview="handlePreview"
               :on-remove="handleRemove"
               :file-list="fileList">
+              <input v-if="updata == false" type="file" id="file-input" multiple webkitdirectory>
               <el-button size="small" type="primary">点击上传</el-button>
               <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-        </el-upload>
-         <div class="">
+        </el-upload> -->
+        <!-- <el-upload
+             v-if="updata == false"
+             class="upload-demo"
+             action="https://jsonplaceholder.typicode.com/posts/"
+             :on-preview="handlePreview"
+             :on-remove="handleRemove"
+             :file-list="fileList">
+             <el-button size="small" type="primary">点击上传</el-button>
+             <input v-if="updata == false" type="file" id="file-input" multiple webkitdirectory>
+             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+       </el-upload> -->
+        <!-- <div v-if="updata == false">
+            <input type="file" id="file-input" multiple webkitdirectory :change=handleFiles()>
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+        </div> -->
+        <div class="" v-if="updata == false">
+            <input type="file" id="file-input" name="" value="" multiple webkitdirectory>
+            <el-button size="small" type="primary" @click="handleFiles">点击上传</el-button>
+        </div>
+         <div class="config-time">
              <h5>设置活动时间：(例如：活动时间：2017年7月1日-7月3日)</h5>
              <el-input v-model="active_time" placeholder="请输入活动时间"></el-input>
+             <el-button @click="upheight">上移</el-button>
+             <el-button @click="downheight">下移</el-button>
          </div>
-         <el-button @click="upheight">上移</el-button>
-         <el-button @click="downheight">下移</el-button>
          <div class="last-pic">
             <h5>设置最后一张图片的高度：</h5>
              <el-input v-model="lastPic_height" placeholder="请输入最后一张图的高度"></el-input>
@@ -98,27 +119,36 @@
               URL.revokeObjectURL(blob);
           },
           preview: function () {
-              console.log(this.pic);
+              // console.log(this.pic);
               this.renderArr = this.pic;
           },
           lastheight: function () {
-              console.log(this.lastPic_height);
+              // console.log(this.lastPic_height);
               if (this.lastPic_height !== '') {
                   this.lastPic_height = parseInt(this.lastPic_height) / 75 + 'rem';
               }
           },
           upheight: function () {
-              console.log(this.top);
+              // console.log(this.top);
               this.top -= 0.1;
           },
           downheight: function () {
               this.top += 0.1;
           },
           handleRemove: function (file, fileList) {
-              console.log(file, fileList);
+              // console.log(file, fileList);
           },
           handlePreview: function (file) {
-              console.log(file);
+              // console.log(file);
+          },
+          handleFiles: function () {
+              var fileList = document.querySelector('#file-input').files;
+              console.log(fileList);
+              var str = [];
+              for (var i = 0; i < fileList.length; i++) {
+                  str.push(fileList[i].webkitRelativePath);
+              }
+              console.log(str);
           }
       },
       watch: {
@@ -130,6 +160,11 @@
           active_time: function () {
               if (this.active_time !== '') {
                   return this.active_time;
+              }
+          },
+          investment_str: function () {
+              if (this.investment_str !== '') {
+                  return this.investment_str;
               }
           },
           investment_bg: function () {
@@ -179,6 +214,9 @@
         }
         .el-input__inner {
           margin: 3px 0;
+        }
+        .config-time {
+          width: 6rem;
         }
     }
     .view{
