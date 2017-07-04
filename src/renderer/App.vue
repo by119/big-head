@@ -15,10 +15,12 @@
           <el-input v-if="(pic__number != undefined || pic__number.length != 0) && updata == true"
           v-for="(item,index) in pic__number" v-model="pic[index]" placeholder="请按填写图片cdn"></el-input>
          <el-button v-if="updata == true" @click="preview">预览</el-button>
+         <input type="file" ref="type1"/>
+
          <el-upload
               v-if="updata == false"
               class="upload-demo"
-              action="https://jsonplaceholder.typicode.com/posts/"
+              action="http://chuantu.biz/t5/124/"
               :on-preview="handlePreview"
               :on-remove="handleRemove"
               :file-list="fileList">
@@ -66,6 +68,7 @@
               lastPic_height: '',
               pic__number: 0,
               pic: [],
+              value: '',
               renderArr: ['http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/1.jpg',
                   'http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/2.jpg',
                   'http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/3.jpg',
@@ -74,7 +77,11 @@
               investment_color: '#fff',
               updata: true,
               fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
-              {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
+              {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
+              items: {
+                  type1: '第一个输入框',
+                  type2: '第二个输入框'
+              }
 
           };
       },
@@ -90,11 +97,10 @@
               URL.revokeObjectURL(blob);
           },
           preview: function () {
-              console.log(this.pic);
               this.renderArr = this.pic;
+              console.log(this.$refs.type1.value);
           },
           lastheight: function () {
-              console.log(this.lastPic_height);
               if (this.lastPic_height !== '') {
                   this.lastPic_height = parseInt(this.lastPic_height) / 75 + 'rem';
               }
@@ -111,6 +117,10 @@
           },
           handlePreview: function (file) {
               console.log(file);
+          },
+          handleFiles: function () {
+              var fileList = this.files;
+              console.log(fileList);
           }
       },
       watch: {
@@ -133,11 +143,13 @@
               if (this.investment_color !== '') {
                   return this.investment_color;
               }
+          },
+          value: function () {
+              console.log(this.value);
           }
       },
 
       created: function () {
-    //   this.createAndDownloadFile('a.html', '<div>测试成功</div>')
       }
   };
 </script>
