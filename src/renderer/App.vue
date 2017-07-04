@@ -17,36 +17,10 @@
           <el-input v-if="(pic__number != undefined || pic__number.length != 0) && updata == true"
           v-for="(item,index) in pic__number" v-model="pic[index]" placeholder="请按填写图片cdn"></el-input>
          <el-button v-if="updata == true" @click="preview">预览</el-button>
-         <!-- <el-upload
-              v-if="updata == false"
-              class="upload-demo"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
-              :file-list="fileList">
-              <input v-if="updata == false" type="file" id="file-input" multiple webkitdirectory>
-              <el-button size="small" type="primary">点击上传</el-button>
-              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-        </el-upload> -->
-        <!-- <el-upload
-             v-if="updata == false"
-             class="upload-demo"
-             action="https://jsonplaceholder.typicode.com/posts/"
-             :on-preview="handlePreview"
-             :on-remove="handleRemove"
-             :file-list="fileList">
-             <el-button size="small" type="primary">点击上传</el-button>
-             <input v-if="updata == false" type="file" id="file-input" multiple webkitdirectory>
-             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-       </el-upload> -->
-        <!-- <div v-if="updata == false">
-            <input type="file" id="file-input" multiple webkitdirectory :change=handleFiles()>
-            <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-        </div> -->
         <div class="" v-if="updata == false">
-            <input type="file" id="file-input" name="" value="" multiple webkitdirectory>
-            <el-button size="small" type="primary" @click="handleFiles">点击上传</el-button>
+            <input v-for="(item,index) in pic__number" type="file" class="file-input" multiple webkitRelativePath>
+            <el-button size="small" type="primary" @click="addArr">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
         </div>
          <div class="config-time">
              <h5>设置活动时间：(例如：活动时间：2017年7月1日-7月3日)</h5>
@@ -64,6 +38,8 @@
             <el-input v-model="investment_str" placeholder="请输入按钮文字"></el-input>
              <el-input v-model="investment_bg" placeholder="请输入按钮背景颜色"></el-input>
              <el-input v-model="investment_color" placeholder="请输入按钮文字颜色"></el-input>
+         </div>
+         <div class="" style="width:50px;height:30px;border:1px solid red;" @click="createAndDownloadFile('aaa.html','<h1>这里是aaa.html</h1>')">
 
          </div>
       </div>
@@ -94,7 +70,7 @@
               lastPic_height: '',
               pic__number: 0,
               pic: [],
-              renderArr: ['http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/1.jpg',
+              renderArr: ['../olympicsimg/02.jpg',
                   'http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/2.jpg',
                   'http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/3.jpg',
                   'http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/4.jpg'],
@@ -104,7 +80,6 @@
               updata: true,
               fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
               {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
-
           };
       },
       components: {
@@ -112,6 +87,7 @@
       methods: {
           createAndDownloadFile: function (fileName, content) {
               var aTag = document.createElement('a');
+              aTag.innerHTML = '点击下载';
               var blob = new Blob([content]);
               aTag.download = fileName;
               aTag.href = URL.createObjectURL(blob);
@@ -141,14 +117,16 @@
           handlePreview: function (file) {
               // console.log(file);
           },
-          handleFiles: function () {
-              var fileList = document.querySelector('#file-input').files;
-              console.log(fileList);
-              var str = [];
-              for (var i = 0; i < fileList.length; i++) {
-                  str.push(fileList[i].webkitRelativePath);
+          addArr: function () {
+              var arr = [];
+              for (var i = 0; i < this.input; i++) {
+                  var str = document.querySelectorAll('.file-input')[i].files[0].path;
+                  str = str.slice(1);
+                  arr.push(str);
               }
-              console.log(str);
+              console.log(arr);
+              this.renderArr = arr;
+              console.log(this.renderArr);
           }
       },
       watch: {
