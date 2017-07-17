@@ -59,16 +59,18 @@
          </div>
       </div>
       <div class="view">
-          <div class="container" ref="app">
-              <div v-if="renderArr.length != 0 && index + 1 != renderArr.length"  v-for="(item,index) in pic__number" class="div__size"
-                  :style="'background-image:url('+ renderArr[index] +')'"
-              ></div>
-              <div v-else class="div__size"
-                  :style="'background-image:url('+ renderArr[index] +');height:'+lastPic_height"
-              ></div>
-              <p class="event-date" :style="'top:'+ top + 'rem'">{{active_time}}</p>
-              <div class="investment" :style="'color:' + investment_color +
-              ';background-color:' + investment_bg">{{investment_str}}</div>
+          <div ref="app">
+              <div class="container">
+                  <div v-if="renderArr.length != 0 && index + 1 != renderArr.length"  v-for="(item,index) in pic__number" class="div__size"
+                      :style="'background-image:url('+ renderArr[index] +')'"
+                  ></div>
+                  <div v-else class="div__size"
+                      :style="'background-image:url('+ renderArr[index] +');height:'+lastPic_height"
+                  ></div>
+                  <p class="event-date" :style="'top:'+ top + 'rem'">{{active_time}}</p>
+                  <div class="investment" :style="'color:' + investment_color +
+                  ';background-color:' + investment_bg">{{investment_str}}</div>
+              </div>
           </div>
       </div>
   </div>
