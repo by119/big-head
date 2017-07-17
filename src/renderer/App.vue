@@ -103,13 +103,22 @@
               investment_bg: '#fb6c04',
               investment_color: '#fff',
               investment_page: '3',
+              weixinUrl: "https://image.ppmiao.com/Public/activity/Notice20170717_alliance/index.html",
+              weixinTitle: '加息联盟 邀您加入',
+              weixinDesc: '华安未来战略入股 收益开启安全加速',
               updata: true,
               fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
               {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
-              dataHeader: "<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><meta content='yes' name='apple-mobile-web-app-capable'><meta content='yes' name='apple-touch-fullscreen'><meta content='telephone=no,email=no' name='format-detection'><title>通告页生成器</title><link rel='stylesheet' href='https://image.ppmiao.com/Public/css/common.css'>" + '<scr'+'ipt src="https://image.ppmiao.com/Public/js/flexible.js"></scr' + 'ipt><scr'+'ipt src="https://image.ppmiao.com/Public/js/flexible_css.js"></scr' + 'ipt><scr' + 'ipt src="https://image.ppmiao.com/Public/js/jquery.min.js"></scr' + 'ipt>' + '<scr' + 'ipt src="./go2app.js"></scr' + 'ipt>',
+              dataHeader: "<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><meta content='yes' name='apple-mobile-web-app-capable'><meta content='yes' name='apple-touch-fullscreen'><meta content='telephone=no,email=no' name='format-detection'><title>通告页生成器</title><link rel='stylesheet' href='https://image.ppmiao.com/Public/css/common.css'>" + '<scr'+'ipt src="https://image.ppmiao.com/Public/js/flexible.js"></scr' + 'ipt><scr'+'ipt src="https://image.ppmiao.com/Public/js/flexible_css.js"></scr' + 'ipt><scr' + 'ipt src="https://image.ppmiao.com/Public/js/jquery.min.js"></scr' + 'ipt>' + '<scr' + 'ipt src="./go2app.js"></scr' + 'ipt>' + '<scr' + 'ipt src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript" charset="utf-8">' + '</scr' + 'ipt>',
               dataHeaderEnd: '</head><body><div style="display:none;"><img src="https://image.ppmiao.com/H5picture/common/300.png" /></div>',
               dataFooter: '</body></html>',
-              dataJS:'<scr' + 'ipt>' + '$(".investment").click( function(){go2App($(".investment_page").html())})' + '</scr' + 'ipt>'
+              dataGo2AppBefore:'<scr' + 'ipt>' + '$(".investment").click( function(){go2App(',
+              dataGo2AppAfter:')})' + '</scr' + 'ipt>',
+              dataWeixin1: '<scr' + 'ipt>' + 'var result = "";$(document).ready(function() {$.ajax({type: "POST",url: "https://sailsact.ppmiao.com/wxToken",data: {url: "',
+              dataWeixin2: '"},success:function(data){result = data;},dataType: "json"});});wx.config(result);wx.ready(function() {var dataForWeixin = {img:"https://image.ppmiao.com/H5picture/common/300.png",linkurl: "',
+              dataWeixin3: '",title: "',
+              dataWeixin4: '",desc: "',
+              dataWeixin5: '",};wx.onMenuShareAppMessage({title: dataForWeixin.title,desc: dataForWeixin.desc,link: dataForWeixin.linkurl,imgUrl: dataForWeixin.img});wx.onMenuShareTimeline({title: dataForWeixin.desc,link: dataForWeixin.linkurl,imgUrl: dataForWeixin.img,});wx.onMenuShareQQ({title: dataForWeixin.title,desc: dataForWeixin.desc,link: dataForWeixin.linkurl,imgUrl: dataForWeixin.img});});' + '</scr' + 'ipt>'
           };
       },
       components: {
@@ -124,11 +133,8 @@
       //     }
       // },
       methods: {
-          addGo2Page: function () {
-
-          },
           test: function () {
-              this.createAndDownloadFile('index.html', this.dataHeader + this.dataHeaderEnd + this.$refs.app.innerHTML + this.dataJS + this.dataFooter);
+              this.createAndDownloadFile('index.html', this.dataHeader + this.dataHeaderEnd + this.$refs.app.innerHTML + this.dataGo2AppBefore + this.investment_page + this.dataGo2AppAfter + this.dataWeixin1 + this.weixinUrl + this.dataWeixin2 + this.weixinUrl + this.dataWeixin3 + this.weixinTitle + this.dataWeixin4 + this.weixinDesc + this.dataWeixin5 + this.dataFooter);
           },
           createAndDownloadFile: function (fileName, content) {
               console.log(this.$refs.app.innerHTML);
@@ -246,7 +252,7 @@
         background-color: #F9BA03;
         width: calc(100% - 10.67rem);
         padding: 0 .33rem;
-        position: fixed;
+        position: absolute;
         top: 0;
         bottom: 0;
         left: 0;
