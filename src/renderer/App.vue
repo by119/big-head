@@ -17,6 +17,21 @@
           <el-input v-if="(pic__number != undefined || pic__number.length != 0) && updata == true"
           v-for="(item,index) in pic__number" v-model="pic[index]" placeholder="请按填写图片cdn"></el-input>
          <el-button v-if="updata == true" @click="preview">预览</el-button>
+        <!-- <el-upload
+             v-if="updata == false"
+             class="upload-demo"
+             action="https://jsonplaceholder.typicode.com/posts/"
+             :on-preview="handlePreview"
+             :on-remove="handleRemove"
+             :file-list="fileList">
+             <el-button size="small" type="primary">点击上传</el-button>
+             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+       </el-upload> -->
+        <!-- <div v-if="updata == false">
+            <input type="file" id="file-input" multiple webkitdirectory :change=handleFiles()>
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+        </div> -->
         <div class="" v-if="updata == false">
             <input v-for="(item,index) in pic__number" type="file" class="file-input" multiple webkitRelativePath>
             <el-button size="small" type="primary" @click="addArr">点击上传</el-button>
@@ -84,6 +99,15 @@
       },
       components: {
       },
+      // directives: {
+      //     myOn: {
+      //         bind (el, binding, vnode) {
+      //             const event = binding.arg;
+      //             const fn = binding.value;
+      //             el.addEventListener(event, fn);
+      //         }
+      //     }
+      // },
       methods: {
           createAndDownloadFile: function (fileName, content) {
               var aTag = document.createElement('a');
@@ -116,6 +140,21 @@
           },
           handlePreview: function (file) {
               // console.log(file);
+          },
+          handleFiles: function () {
+              // var fileList = this.files;
+              // console.log(document.querySelector('.file-input'));
+              // console.log(document.querySelector('.file-input').files[0]);
+              // console.log(document.querySelector('.file-input').files[0].path);
+              // var fileList = document.querySelectorAll('.file-input');
+              // var str = [];
+              // for (var i = 0; i < fileList.length; i++) {
+              //     str.push(document.querySelectorAll('.file-input')[i].files[0].path);
+              //     // console.log(document.querySelector('.file-input').files[i]);
+              //     // console.log(document.querySelector('.file-input').files[i].file.path);
+              //     // console.log(document.querySelectorAll('.file-input')[i].files[0].path);
+              // }
+              // console.log(str);
           },
           addArr: function () {
               var arr = [];
