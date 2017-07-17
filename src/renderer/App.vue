@@ -53,6 +53,7 @@
             <el-input v-model="investment_str" placeholder="请输入按钮文字"></el-input>
              <el-input v-model="investment_bg" placeholder="请输入按钮背景颜色"></el-input>
              <el-input v-model="investment_color" placeholder="请输入按钮文字颜色"></el-input>
+             <el-input v-model="investment_page" placeholder="请输入按钮跳转页面"></el-input>
          </div>
          <div class="" style="width:50px;height:30px;border:1px solid red;" @click="test()">
 
@@ -70,6 +71,7 @@
                   <p class="event-date" :style="'top:'+ top + 'rem'">{{active_time}}</p>
                   <div class="investment" :style="'color:' + investment_color +
                   ';background-color:' + investment_bg">{{investment_str}}</div>
+                  <span class="investment_page" style="display: none">{{investment_page}}</span>
               </div>
           </div>
       </div>
@@ -87,16 +89,27 @@
               lastPic_height: '',
               pic__number: 0,
               pic: [],
+            //   renderArr: ['http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/1.jpg',
+            //       'http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/2.jpg',
+            //       'http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/3.jpg',
+            //       'http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/4.jpg'],
+            //   renderArr: ['./images/01.jpg',
+            //       './images/02.jpg',
+            //       './images/03.jpg',
+            //       './images/04.jpg',
+            //       './images/05.jpg'],
               renderArr: [],
               investment_str: '立即投资',
               investment_bg: '#fb6c04',
               investment_color: '#fff',
+              investment_page: '3',
               updata: true,
               fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
               {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
-              dataHeader: "<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><meta content='yes' name='apple-mobile-web-app-capable'><meta content='yes' name='apple-touch-fullscreen'><meta content='telephone=no,email=no' name='format-detection'><title>通告页生成器</title><link rel='stylesheet' href='https://image.ppmiao.com/Public/css/common.css'>" + '<scr'+'ipt src="https://image.ppmiao.com/Public/js/flexible.js"></scr' + 'ipt><scr'+'ipt src="https://image.ppmiao.com/Public/js/flexible_css.js"></scr' + 'ipt><scr' + 'ipt src="https://image.ppmiao.com/Public/js/jquery.min.js"></scr' + 'ipt>',
-              dataHeaderEnd: '</head><body>',
-              dataFooter: '</body></html>'
+              dataHeader: "<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><meta content='yes' name='apple-mobile-web-app-capable'><meta content='yes' name='apple-touch-fullscreen'><meta content='telephone=no,email=no' name='format-detection'><title>通告页生成器</title><link rel='stylesheet' href='https://image.ppmiao.com/Public/css/common.css'>" + '<scr'+'ipt src="https://image.ppmiao.com/Public/js/flexible.js"></scr' + 'ipt><scr'+'ipt src="https://image.ppmiao.com/Public/js/flexible_css.js"></scr' + 'ipt><scr' + 'ipt src="https://image.ppmiao.com/Public/js/jquery.min.js"></scr' + 'ipt>' + '<scr' + 'ipt src="./go2app.js"></scr' + 'ipt>',
+              dataHeaderEnd: '</head><body><div style="display:none;"><img src="https://image.ppmiao.com/H5picture/common/300.png" /></div>',
+              dataFooter: '</body></html>',
+              dataJS:'<scr' + 'ipt>' + '$(".investment").click( function(){go2App($(".investment_page").html())})' + '</scr' + 'ipt>'
           };
       },
       components: {
@@ -111,8 +124,11 @@
       //     }
       // },
       methods: {
+          addGo2Page: function () {
+
+          },
           test: function () {
-              this.createAndDownloadFile('index.html', this.dataHeader + this.dataHeaderEnd + this.$refs.app.innerHTML + this.dataFooter);
+              this.createAndDownloadFile('index.html', this.dataHeader + this.dataHeaderEnd + this.$refs.app.innerHTML + this.dataJS + this.dataFooter);
           },
           createAndDownloadFile: function (fileName, content) {
               console.log(this.$refs.app.innerHTML);
@@ -198,6 +214,11 @@
                   return this.investment_color;
               }
           },
+          investment_page: function () {
+              if (this.investment_page !== '') {
+                  return this.investment_page;
+              }
+          },
           value: function () {
               console.log(this.value);
           }
@@ -206,6 +227,9 @@
       created: function () {
       }
   };
+
+
+
 </script>
 
 <style lang="scss">
@@ -222,7 +246,7 @@
         background-color: #F9BA03;
         width: calc(100% - 10.67rem);
         padding: 0 .33rem;
-        position: absolute;
+        position: fixed;
         top: 0;
         bottom: 0;
         left: 0;
