@@ -39,12 +39,12 @@
              <el-input v-model="investment_bg" placeholder="请输入按钮背景颜色"></el-input>
              <el-input v-model="investment_color" placeholder="请输入按钮文字颜色"></el-input>
          </div>
-         <div class="" style="width:50px;height:30px;border:1px solid red;" @click="createAndDownloadFile('aaa.html',dataHeader+ dataFooter)">
+         <div class="" style="width:50px;height:30px;border:1px solid red;" @click="test()">
 
          </div>
       </div>
       <div class="view">
-          <div class="container">
+          <div class="container" ref="app">
               <div v-if="renderArr.length != 0 && index + 1 != renderArr.length"  v-for="(item,index) in pic__number" class="div__size"
                   :style="'background-image:url('+ renderArr[index] +')'"
               ></div>
@@ -70,24 +70,26 @@
               lastPic_height: '',
               pic__number: 0,
               pic: [],
-              renderArr: ['../olympicsimg/02.jpg',
-                  'http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/2.jpg',
-                  'http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/3.jpg',
-                  'http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/4.jpg'],
+              renderArr: [],
               investment_str: '立即投资',
               investment_bg: '#fb6c04',
               investment_color: '#fff',
               updata: true,
               fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
               {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
-              dataHeader: '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="yes" name="apple-touch-fullscreen"><meta content="telephone=no,email=no" name="format-detection"><title>通告页生成器</title><script src="https://image.ppmiao.com/Public/js/flexible.js"></script><script src="https://image.ppmiao.com/Public/js/flexible_css.js"></script><script src="https://image.ppmiao.com/Public/js/jquery-1.10.2.min.js"></script><link rel="stylesheet" href="https://image.ppmiao.com/Public/css/common.css"></head><body>',
-              dataFooter: '<style>/*re*/html,body,h1,h2,h3,h4,h5,h6,div,dl,dt,dd,ul,ol,li,p,blockquote,pre,hr,figure,table,caption,th,td,form,fieldset,legend,input,button,textarea,menu{margin:0;padding:0;}header,footer,section,article,aside,nav,hgroup,address,figure,figcaption,menu,details{display:block;}table{border-collapse:collapse;border-spacing:0;}caption,th{text-align:left;font-weight:normal;}html,body,fieldset,img,iframe,abbr{border:0;}i,cite,em,var,address,dfn{font-style:normal;}[hidefocus],summary{outline:0;}li{list-style:none;}h1,h2,h3,h4,h5,h6,small{font-size:100%;}sup,sub{font-size:83%;}pre,code,kbd,samp{font-family:inherit;}q:before,q:after{content:none;}textarea{overflow:auto;resize:none;}label,summary{cursor:default;}a,button{cursor:pointer;}h1,h2,h3,h4,h5,h6,em,strong,b{font-weight:bold;}del,ins,u,s,a,a:hover{text-decoration:none;}body,textarea,input,button,select,keygen,legend{font:12px/1.14 arial,\5b8b\4f53;color:#333;outline:0;}body{background:#fff;}a,a:hover{color:#333;}</style></html>'
+              dataHeader: "<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><meta content='yes' name='apple-mobile-web-app-capable'><meta content='yes' name='apple-touch-fullscreen'><meta content='telephone=no,email=no' name='format-detection'><title>通告页生成器</title><link rel='stylesheet' href='https://image.ppmiao.com/Public/css/common.css'>" + '<scr'+'ipt src="https://image.ppmiao.com/Public/js/flexible.js"></scr' + 'ipt><scr'+'ipt src="https://image.ppmiao.com/Public/js/flexible_css.js"></scr' + 'ipt><scr' + 'ipt src="https://image.ppmiao.com/Public/js/jquery.min.js"></scr' + 'ipt>',
+              dataHeaderEnd: '</head><body>',
+              dataFooter: '</body></html>'
           };
       },
       components: {
       },
       methods: {
+          test: function () {
+              this.createAndDownloadFile('index.html', this.dataHeader + this.dataHeaderEnd + this.$refs.app.innerHTML + this.dataFooter);
+          },
           createAndDownloadFile: function (fileName, content) {
+              console.log(this.$refs.app.innerHTML);
               var aTag = document.createElement('a');
               aTag.innerHTML = '点击下载';
               var blob = new Blob([content]);
@@ -98,7 +100,6 @@
           },
           preview: function () {
               this.renderArr = this.pic;
-              console.log(this.$refs.type1.value);
           },
           lastheight: function () {
               if (this.lastPic_height !== '') {
