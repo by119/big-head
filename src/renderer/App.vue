@@ -42,9 +42,7 @@
             <el-input v-model="investment_color" placeholder="请输入按钮文字颜色"></el-input>
             <el-input v-model="investment_page" placeholder="请输入按钮跳转页面序号"></el-input>
         </div>
-        <div class="create_btn" @click="test()">
-            生成
-        </div>
+        <el-button type="primary" style="margin: 10px 0 20px" @click="test()">生成</el-button>
     </div>
     <div class="view">
         <div ref="app">
@@ -318,17 +316,6 @@ body {
         }
         .config-time {
             width: 6rem;
-        }
-        .create_btn {
-            width: .7rem;
-            text-align: center;
-            padding: .13rem;
-            margin-top: .13rem;
-            margin-bottom:.27rem;
-            border-radius: 5px;
-            color: #fff;
-            font-weight: 700;
-            background-color: #20a0ff;
         }
     }
     .view {
