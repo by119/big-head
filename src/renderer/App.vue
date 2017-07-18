@@ -1,6 +1,12 @@
 <template>
   <div id="app">
       <div class="setting">
+          <h5>添加活动标题：</h5>
+          <el-input v-model="active_title" placeholder="请输入活动标题"></el-input>
+          <h5>添加活动介绍：</h5>
+          <el-input v-model="active_desc" placeholder="请输入活动介绍"></el-input>
+          <h5>添加活动链接地址：</h5>
+          <el-input v-model="active_url" placeholder="请输入活动链接地址"></el-input>
           <div class="first-pic">
             <h5>设置图片：</h5>
               <p>
@@ -45,7 +51,7 @@
          </div>
          <div class="last-pic">
             <h5>设置最后一张图片的高度：</h5>
-             <el-input v-model="lastPic_height" placeholder="请输入最后一张图的高度"></el-input>
+             <el-input v-model="lastPic_height" placeholder="请输入数字（单位:px）"></el-input>
              <el-button @click="lastheight">转为rem</el-button>
          </div>
          <div class="last-pic">
@@ -53,10 +59,10 @@
             <el-input v-model="investment_str" placeholder="请输入按钮文字"></el-input>
              <el-input v-model="investment_bg" placeholder="请输入按钮背景颜色"></el-input>
              <el-input v-model="investment_color" placeholder="请输入按钮文字颜色"></el-input>
-             <el-input v-model="investment_page" placeholder="请输入按钮跳转页面"></el-input>
+             <el-input v-model="investment_page" placeholder="请输入按钮跳转页面序号"></el-input>
          </div>
-         <div class="" style="width:50px;height:30px;border:1px solid red;" @click="test()">
-
+         <div class="" style="width: 30px;text-align: center; padding: 10px; margin-bottom:20px;border-radius: 5px;color: #fff;font-weight: 700;background-color: #20a0ff;" @click="test()">
+             生成
          </div>
       </div>
       <div class="view">
@@ -69,7 +75,7 @@
                       :style="'background-image:url('+ renderArr[index] +');height:'+lastPic_height"
                   ></div>
                   <p class="event-date" :style="'top:'+ top + 'rem'">{{active_time}}</p>
-                  <div class="investment" :style="'color:' + investment_color +
+                  <div v-show = "investment_str !== ''" class="investment" :style="'color:' + investment_color +
                   ';background-color:' + investment_bg">{{investment_str}}</div>
                   <span class="investment_page" style="display: none">{{investment_page}}</span>
               </div>
@@ -89,10 +95,10 @@
               lastPic_height: '',
               pic__number: 0,
               pic: [],
-            //   renderArr: ['http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/1.jpg',
-            //       'http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/2.jpg',
-            //       'http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/3.jpg',
-            //       'http://ppmiao-image.oss-cn-hangzhou.aliyuncs.com/H5picture/common/4.jpg'],
+            //   renderArr: ['https://image.ppmiao.com/H5picture/common/1.jpg',
+            //       'https://image.ppmiao.com/H5picture/common/2.jpg',
+            //       'https://image.ppmiao.com/H5picture/common/3.jpg',
+            //       'https://image.ppmiao.com/H5picture/common/4.jpg'],
             //   renderArr: ['./images/01.jpg',
             //       './images/02.jpg',
             //       './images/03.jpg',
@@ -103,22 +109,109 @@
               investment_bg: '#fb6c04',
               investment_color: '#fff',
               investment_page: '3',
-              weixinUrl: "https://image.ppmiao.com/Public/activity/Notice20170717_alliance/index.html",
-              weixinTitle: '加息联盟 邀您加入',
-              weixinDesc: '华安未来战略入股 收益开启安全加速',
+              active_url: "https://image.ppmiao.com/Public/activity/Notice20170717_alliance/index.html",
+              active_title: '加息联盟 邀您加入',
+              active_desc: '华安未来战略入股 收益开启安全加速',
               updata: true,
               fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
               {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
-              dataHeader: "<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><meta content='yes' name='apple-mobile-web-app-capable'><meta content='yes' name='apple-touch-fullscreen'><meta content='telephone=no,email=no' name='format-detection'><title>通告页生成器</title><link rel='stylesheet' href='https://image.ppmiao.com/Public/css/common.css'>" + '<scr'+'ipt src="https://image.ppmiao.com/Public/js/flexible.js"></scr' + 'ipt><scr'+'ipt src="https://image.ppmiao.com/Public/js/flexible_css.js"></scr' + 'ipt><scr' + 'ipt src="https://image.ppmiao.com/Public/js/jquery.min.js"></scr' + 'ipt>' + '<scr' + 'ipt src="./go2app.js"></scr' + 'ipt>' + '<scr' + 'ipt src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript" charset="utf-8">' + '</scr' + 'ipt>',
+              dataHeader1: "<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><meta content='yes' name='apple-mobile-web-app-capable'><meta content='yes' name='apple-touch-fullscreen'><meta content='telephone=no,email=no' name='format-detection'><title>",
+              dataHeader2: "</title><link rel='stylesheet' href='https://image.ppmiao.com/Public/css/common.css'>" + '<scr'+'ipt src="https://image.ppmiao.com/Public/js/flexible.js"></scr' + 'ipt><scr'+'ipt src="https://image.ppmiao.com/Public/js/flexible_css.js"></scr' + 'ipt><scr' + 'ipt src="https://image.ppmiao.com/Public/js/jquery.min.js"></scr' + 'ipt>' + '<scr' + 'ipt src="./go2app.js"></scr' + 'ipt>' + '<scr' + 'ipt src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript" charset="utf-8">' + '</scr' + 'ipt>',
               dataHeaderEnd: '</head><body><div style="display:none;"><img src="https://image.ppmiao.com/H5picture/common/300.png" /></div>',
               dataFooter: '</body></html>',
               dataGo2AppBefore:'<scr' + 'ipt>' + '$(".investment").click( function(){go2App(',
               dataGo2AppAfter:')})' + '</scr' + 'ipt>',
-              dataWeixin1: '<scr' + 'ipt>' + 'var result = "";$(document).ready(function() {$.ajax({type: "POST",url: "https://sailsact.ppmiao.com/wxToken",data: {url: "',
-              dataWeixin2: '"},success:function(data){result = data;},dataType: "json"});});wx.config(result);wx.ready(function() {var dataForWeixin = {img:"https://image.ppmiao.com/H5picture/common/300.png",linkurl: "',
-              dataWeixin3: '",title: "',
-              dataWeixin4: '",desc: "',
-              dataWeixin5: '",};wx.onMenuShareAppMessage({title: dataForWeixin.title,desc: dataForWeixin.desc,link: dataForWeixin.linkurl,imgUrl: dataForWeixin.img});wx.onMenuShareTimeline({title: dataForWeixin.desc,link: dataForWeixin.linkurl,imgUrl: dataForWeixin.img,});wx.onMenuShareQQ({title: dataForWeixin.title,desc: dataForWeixin.desc,link: dataForWeixin.linkurl,imgUrl: dataForWeixin.img});});' + '</scr' + 'ipt>'
+              dataWeixin1: `<scr` + `ipt>`+`var result = "";
+                  $(document).ready(function() {
+                      $.ajax({
+                          type: 'POST',
+                          url: 'https://sailsact.ppmiao.com/wxToken',
+                          data: {
+                              url: "`,
+              dataWeixin2: `"
+                          },
+                          success:function(data){
+                                  result = data;
+                                 },
+                          dataType: 'json'
+                      });
+                  });
+                  wx.config(result);
+                  wx.ready(function() {
+
+                      // 2. 分享接口
+                      // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+                      var dataForWeixin = {
+                          img: "https://image.ppmiao.com/H5picture/common/300.png",
+                          linkurl: "`,
+              dataWeixin3: `",title: "`,
+              dataWeixin4: `",desc: "`,
+              dataWeixin5: `",};
+                  wx.onMenuShareAppMessage({
+                      title: dataForWeixin.title,
+                      desc: dataForWeixin.desc,
+                      link: dataForWeixin.linkurl,
+                      imgUrl: dataForWeixin.img,
+                      trigger: function(res) {
+
+                      },
+                      success: function(res) {
+                          //alert('已分享');
+                          //                share();
+                      },
+                      cancel: function(res) {
+                          //alert('已取消');
+                      },
+                      fail: function(res) {
+                          //alert(JSON.stringify(res));
+                      }
+                  });
+
+
+                  // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+                  wx.onMenuShareTimeline({
+                      title: dataForWeixin.desc,
+                      link: dataForWeixin.linkurl,
+                      imgUrl: dataForWeixin.img,
+                      trigger: function(res) {
+                          // alert('用户点击分享到朋友圈');
+                      },
+                      success: function(res) {
+                          //alert('已分享');
+                          //                share()
+
+                      },
+                      cancel: function(res) {
+                          //alert('已取消');
+                      },
+                      fail: function(res) {
+                          //alert(JSON.stringify(res));
+                      }
+                  });
+
+                  wx.onMenuShareQQ({
+                      title: dataForWeixin.title,
+                      desc: dataForWeixin.desc,
+                      link: dataForWeixin.linkurl,
+                      imgUrl: dataForWeixin.img,
+                      trigger: function(res) {
+                          //alert('用户点击分享到QQ');
+                      },
+                      complete: function(res) {
+                          //alert(JSON.stringify(res));
+                      },
+                      success: function(res) {
+                          //alert('已分享');
+                      },
+                      cancel: function(res) {
+                          //alert('已取消');
+                      },
+                      fail: function(res) {
+                          //alert(JSON.stringify(res));
+                      }
+                  });
+              });`
+              + `</scr` + `ipt>`
           };
       },
       components: {
@@ -134,7 +227,7 @@
       // },
       methods: {
           test: function () {
-              this.createAndDownloadFile('index.html', this.dataHeader + this.dataHeaderEnd + this.$refs.app.innerHTML + this.dataGo2AppBefore + this.investment_page + this.dataGo2AppAfter + this.dataWeixin1 + this.weixinUrl + this.dataWeixin2 + this.weixinUrl + this.dataWeixin3 + this.weixinTitle + this.dataWeixin4 + this.weixinDesc + this.dataWeixin5 + this.dataFooter);
+              this.createAndDownloadFile('index.html', this.dataHeader1 + this.active_title + this.dataHeader2 + this.dataHeaderEnd + this.$refs.app.innerHTML + this.dataGo2AppBefore + this.investment_page + this.dataGo2AppAfter + this.dataWeixin1 + this.active_url + this.dataWeixin2 + this.active_url + this.dataWeixin3 + this.active_title + this.dataWeixin4 + this.active_desc + this.dataWeixin5 + this.dataFooter);
           },
           createAndDownloadFile: function (fileName, content) {
               console.log(this.$refs.app.innerHTML);
@@ -205,6 +298,21 @@
                   return this.active_time;
               }
           },
+          active_title: function () {
+              if (this.active_title !== '') {
+                  return this.active_title;
+              }
+          },
+          active_desc: function () {
+              if (this.active_desc !== '') {
+                  return this.active_desc;
+              }
+          },
+          active_url: function () {
+              if (this.active_url !== '') {
+                  return this.active_url;
+              }
+          },
           investment_str: function () {
               if (this.investment_str !== '') {
                   return this.investment_str;
@@ -247,7 +355,6 @@
   }
   #app {
     font-family: Helvetica, sans-serif;
-    // text-align: center;
     .setting{
         background-color: #F9BA03;
         width: calc(100% - 10.67rem);
@@ -256,6 +363,7 @@
         top: 0;
         bottom: 0;
         left: 0;
+        overflow: scroll;
         .first-pic{
             width: 3rem;
         }
@@ -279,6 +387,7 @@
         top: 0;
         bottom: 0;
         right: 0;
+        overflow: scroll;
     }
   }
 
