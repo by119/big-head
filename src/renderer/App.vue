@@ -79,7 +79,8 @@
               {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
               dataHeader: "<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><meta content='yes' name='apple-mobile-web-app-capable'><meta content='yes' name='apple-touch-fullscreen'><meta content='telephone=no,email=no' name='format-detection'><title>通告页生成器</title><link rel='stylesheet' href='https://image.ppmiao.com/Public/css/common.css'>" + '<scr'+'ipt src="https://image.ppmiao.com/Public/js/flexible.js"></scr' + 'ipt><scr'+'ipt src="https://image.ppmiao.com/Public/js/flexible_css.js"></scr' + 'ipt><scr' + 'ipt src="https://image.ppmiao.com/Public/js/jquery.min.js"></scr' + 'ipt>',
               dataHeaderEnd: '</head><body>',
-              dataFooter: '</body></html>'
+              dataFooter: '</body></html>',
+              dataJS: "<scr" + "ipt type='text/javascript'>var u = navigator.userAgent,app = navigator.appVersion;var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1;var isiOS = !!u.match(" + "/" + "\\" + "(i[^;]+;( U;)? CPU.+Mac OS X/);"
           };
       },
       components: {
