@@ -20,8 +20,8 @@
         <el-input v-if="(pic__number != undefined || pic__number.length != 0) && updata == true" v-for="(item,index) in pic__number" v-model="pic[index]" placeholder="请按填写图片cdn"></el-input>
         <el-button v-if="updata == true" @click="preview">预览</el-button>
         <div class="" v-if="updata == false">
-            <input v-for="(item,index) in pic__number" type="file" class="file-input" multiple webkitRelativePath>
-            <el-button size="small" type="primary" @click="addArr">点击上传</el-button>
+            <input v-for="(item,index) in pic__number" type="file" class="file-input" @change="addImg(index)" multiple webkitRelativePath>
+            <el-button size="small" type="primary" @click="imgShow">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
         </div>
         <div class="config-time">
@@ -58,7 +58,7 @@
     </div>
 </div>
 </template>
-
+<script src="https://image.ppmiao.com/Public/js/jquery.min.js"></script>
 <script>
 export default {
     name: 'big-head',
@@ -70,6 +70,7 @@ export default {
             lastPic_height: '',
             pic__number: 0,
             pic: [],
+            imgDataArr: [],
             renderArr: [],
             investment_str: '立即投资',
             investment_bg: '#fb6c04',
@@ -217,16 +218,21 @@ export default {
         downheight: function() {
             this.top += 0.1;
         },
-        addArr: function() {
-            var arr = [];
-            for (var i = 0; i < this.input; i++) {
-                var str = document.querySelectorAll('.file-input')[i].files[0].path;
-                str = str.slice(1);
-                arr.push(str);
-            }
-            console.log(arr);
-            this.renderArr = arr;
-            console.log(this.renderArr);
+        addImg: function(index){
+            var files = document.querySelectorAll('.file-input')[index].files;
+			var file = files[0];
+			// 接受 jpeg, jpg, png 类型的图片
+			if (!/\/(?:jpeg|jpg|png)/i.test(file.type)) return;
+			var reader = new FileReader();
+            var _this = this;
+			reader.onload = function() {
+				var result = this.result;
+                _this.imgDataArr.push(result);
+			}
+			reader.readAsDataURL(file);
+        },
+        imgShow: function(){
+            this.renderArr = this.imgDataArr;
         }
     },
     watch: {
