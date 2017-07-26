@@ -2,23 +2,23 @@
 <div id="app">
     <div class="setting">
         <h5>添加活动标题：</h5>
-        <el-input v-model="active_title" placeholder="请输入活动标题"></el-input>
+        <el-input v-model="active_title" placeholder="请输入活动标题 例：加息联盟 邀您加入"></el-input>
         <h5>添加活动介绍：</h5>
-        <el-input v-model="active_desc" placeholder="请输入活动介绍"></el-input>
+        <el-input v-model="active_desc" placeholder="请输入活动介绍 例：华安未来战略入股 收益开启安全加速"></el-input>
         <h5>添加活动链接地址：</h5>
-        <el-input v-model="active_url" placeholder="请输入活动链接地址"></el-input>
+        <el-input v-model="active_url" placeholder="请输入活动链接地址 例：https://image.ppmiao.com/Public/activity/Notice20170717_alliance/index.html"></el-input>
         <div class="first-pic">
-            <h5>设置图片：</h5>
-            <p>
-                图片分辨率 750*750
+            <h5>设置图片数量：</h5>
+            <p style="color:#F56C00">
+                图片分辨率必须为 750*750
             </p>
             <el-input v-model="input" placeholder="请输入图片数"></el-input>
             <h5>选择图片的添加方式：</h5>
-            <el-switch v-model="updata" on-color="#13ce66" off-color="#ff4949">
+            <el-switch :width = '90' v-model="updata" on-color="#13ce66" off-color="#ff4949" on-text="添加CDN" off-text="本地上传">
             </el-switch>
         </div>
         <el-input v-if="(pic__number != undefined || pic__number.length != 0) && updata == true" v-for="(item,index) in pic__number" v-model="pic[index]" placeholder="请按填写图片cdn"></el-input>
-        <el-button v-if="updata == true" @click="preview">预览</el-button>
+        <el-button v-if="updata == true" @click="preview" style="margin-top: 15px;">预览生成页</el-button>
         <div class="" v-if="updata == false">
             <input v-for="(item,index) in pic__number" type="file" class="file-input" @change="addImg(index)" multiple webkitRelativePath>
             <el-button size="small" type="primary" @click="imgShow">点击上传</el-button>
@@ -27,20 +27,24 @@
         <div class="config-time">
             <h5>设置活动时间：(例如：活动时间：2017年7月1日-7月3日)</h5>
             <el-input v-model="active_time" placeholder="请输入活动时间"></el-input>
+            <el-input v-model="active_time_color" placeholder="请输入活动时间的颜色 例：#fff"></el-input>
             <el-button @click="upheight">上移</el-button>
             <el-button @click="downheight">下移</el-button>
+            <el-input v-model="font_size_input" placeholder="请输入字号（单位:px）例：14" style="width:3rem;margin-left:10px"></el-input>
         </div>
-        <div class="last-pic">
+        <div class="last-pic" style="width:100%">
             <h5>设置最后一张图片的高度：</h5>
-            <el-input v-model="lastPic_height" placeholder="请输入数字（单位:px）"></el-input>
+            <el-input v-model="lastPic_height" placeholder="请输入数字（单位:px）例：300" style='width:5rem'></el-input>
             <el-button @click="lastheight">转为rem</el-button>
         </div>
         <div class="last-pic">
             <h5>设置按钮：</h5>
-            <el-input v-model="investment_str" placeholder="请输入按钮文字"></el-input>
-            <el-input v-model="investment_bg" placeholder="请输入按钮背景颜色"></el-input>
-            <el-input v-model="investment_color" placeholder="请输入按钮文字颜色"></el-input>
-            <el-input v-model="investment_page" placeholder="请输入按钮跳转页面序号"></el-input>
+            <el-input v-model="investment_str" placeholder="请输入按钮文字 例：立即投资"></el-input>
+            <el-input v-model="investment_bg" placeholder="请输入按钮背景颜色 例：#fff"></el-input>
+            <el-input v-model="investment_color" placeholder="请输入按钮文字颜色 例：#fff"></el-input>
+            <el-input v-model="investment_page" placeholder="请输入按钮跳转页面序号 例：2"></el-input>
+            <p style="    width: 10rem;
+    margin-top: 10px;">1:首页,2:产品列表,3:账户中心,4:更多,5:我的奖励,6:好友推荐,7:我的钱包,8:银行卡列表</p>
         </div>
         <el-button type="primary" style="margin: 10px 0 20px" @click="test()">生成</el-button>
     </div>
@@ -49,9 +53,9 @@
             <div class="container">
                 <div v-if="renderArr.length != 0 && index + 1 != renderArr.length" v-for="(item,index) in pic__number" class="div__size" :style="'background-image:url('+ renderArr[index] +')'"></div>
                 <div v-else class="div__size" :style="'background-image:url('+ renderArr[index] +');height:'+lastPic_height"></div>
-                <p class="event-date" :style="'top:'+ top + 'rem'">{{active_time}}</p>
+                <p class="event-date" :style="'top:'+ top + 'rem;' + 'font-size:'+ font_size + ';color:' + active_time_color + ';font-family: PingFangSC-Regular!important'">{{active_time}}</p>
                 <div v-show="investment_str !== ''" class="investment" :style="'color:' + investment_color +
-                  ';background-color:' + investment_bg">{{investment_str}}</div>
+                  ';background-color:' + investment_bg + ';font-family: PingFangSC-Regular!important'">{{investment_str}}</div>
                 <span class="investment_page" style="display: none">{{investment_page}}</span>
             </div>
         </div>
@@ -66,19 +70,22 @@ export default {
         return {
             input: '',
             active_time: '活动时间：2017年7月1日-7月3日',
+            active_time_color: '',
             top: 5,
             lastPic_height: '',
+            font_size: 0.3733,
+            font_size_input:'',
             pic__number: 0,
             pic: [],
             imgDataArr: [],
             renderArr: [],
-            investment_str: '立即投资',
-            investment_bg: '#fb6c04',
-            investment_color: '#fff',
-            investment_page: '3',
-            active_url: "https://image.ppmiao.com/Public/activity/Notice20170717_alliance/index.html",
-            active_title: '加息联盟 邀您加入',
-            active_desc: '华安未来战略入股 收益开启安全加速',
+            investment_str: '',
+            investment_bg: '',
+            investment_color: '',
+            investment_page: '',
+            active_url: '',
+            active_title: '',
+            active_desc: '',
             updata: true,
             fileList: [{
                     name: 'food.jpeg',
@@ -283,6 +290,11 @@ export default {
                 return this.investment_bg;
             }
         },
+        active_time_color: function() {
+            if (this.active_time_color !== '') {
+                return this.active_time_color;
+            }
+        },
         investment_color: function() {
             if (this.investment_color !== '') {
                 return this.investment_color;
@@ -295,6 +307,12 @@ export default {
         },
         value: function() {
             console.log(this.value);
+        },
+        font_size_input: function() {
+            if (this.font_size_input !== '') {
+                this.font_size = parseInt(this.font_size_input) / 75 + 'rem';
+                console.log(this.font_size);
+            }
         }
     },
 
@@ -312,7 +330,7 @@ body {
 #app {
     font-family: Helvetica, sans-serif;
     .setting {
-        background-color: #F9BA03;
+        background-color: #EEE8E3;
         width: calc(100% - 10.67rem);
         padding: 0 0.33rem;
         position: absolute;
