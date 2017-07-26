@@ -91,7 +91,7 @@ export default {
             ],
             dataHeader1: "<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><meta content='yes' name='apple-mobile-web-app-capable'><meta content='yes' name='apple-touch-fullscreen'><meta content='telephone=no,email=no' name='format-detection'><title>",
             dataHeader2: "</title><link rel='stylesheet' href='https://image.ppmiao.com/Public/css/common.css'>" + '<scr' + 'ipt src="https://image.ppmiao.com/Public/js/flexible.js"></scr' + 'ipt><scr' +
-                'ipt src="https://image.ppmiao.com/Public/js/flexible_css.js"></scr' + 'ipt><scr' + 'ipt src="https://image.ppmiao.com/Public/js/jquery.min.js"></scr' + 'ipt>' + '<scr' + 'ipt src="./go2app.js"></scr' + 'ipt>' + '<scr' +
+                'ipt src="https://image.ppmiao.com/Public/js/flexible_css.js"></scr' + 'ipt><scr' + 'ipt src="https://image.ppmiao.com/Public/js/jquery.min.js"></scr' + 'ipt>' + '<scr' + 'ipt src="https://image.ppmiao.com/Public/js/go2app.js"></scr' + 'ipt>' + '<scr' +
                 'ipt src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript" charset="utf-8">' + '</scr' + 'ipt>',
             dataHeaderEnd: '</head><body><div style="display:none;"><img src="https://image.ppmiao.com/H5picture/common/300.png" /></div>',
             dataFooter: '</body></html>',
@@ -191,7 +191,7 @@ export default {
     components: {},
     methods: {
         test: function() {
-            this.createAndDownloadFile('index.html', this.dataHeader1 + this.active_title + this.dataHeader2 + this.dataHeaderEnd + this.$refs.app.innerHTML + this.dataGo2AppBefore + this.investment_page + this.dataGo2AppAfter + this.dataWeixin1 +
+            this.download('index.html', this.dataHeader1 + this.active_title + this.dataHeader2 + this.dataHeaderEnd + this.$refs.app.innerHTML + this.dataGo2AppBefore + this.investment_page + this.dataGo2AppAfter + this.dataWeixin1 +
                 this.active_url + this.dataWeixin2 + this.active_url + this.dataWeixin3 + this.active_title + this.dataWeixin4 + this.active_desc + this.dataWeixin5 + this.dataFooter);
         },
         createAndDownloadFile: function(fileName, content) {
@@ -203,6 +203,18 @@ export default {
             aTag.href = URL.createObjectURL(blob);
             aTag.click();
             URL.revokeObjectURL(blob);
+        },
+        download: function (filename, text) {
+              var element = document.createElement('a');
+              element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+              element.setAttribute('download', filename);
+
+              element.style.display = 'none';
+              document.body.appendChild(element);
+
+              element.click();
+
+              document.body.removeChild(element);
         },
         preview: function() {
             this.renderArr = this.pic;
