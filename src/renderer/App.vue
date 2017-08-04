@@ -1,64 +1,82 @@
 <template>
 <div id="app">
-    <div class="setting">
-        <div style="max-width:17rem;">
-            <h5>添加活动标题：</h5>
-            <el-input v-model="active_title" placeholder="请输入活动标题 例：加息联盟 邀您加入"></el-input>
-            <h5>添加活动介绍：</h5>
-            <el-input v-model="active_desc" placeholder="请输入活动介绍 例：华安未来战略入股 收益开启安全加速"></el-input>
-            <h5>添加活动链接地址：</h5>
-            <el-input v-model="active_url" placeholder="请输入活动链接地址 例：https://image.ppmiao.com/Public/activity/Notice20170717_alliance/index.html"></el-input>
+    <div class="setting" style="height:24rem;">
+        <div class="openMenu" @click="toggleMenu"><i></i><i></i><i></i></div>
+            <div>
+                <transition name="fade">
+                    <div class="menu" v-if="isMenuOpen">
+                        <ul>
+                            <li>111111111111</li>
+                            <li>222222222222</li>
+                            <li>333333333333</li>
+                            <li>444444444444</li>
+                            <li>555555555555</li>
+                        </ul>
+                    </div>
+                </transition>
+            </div>
+        <div class="setList">
+            <div style="max-width:17rem;">
+                <h5>添加活动标题：</h5>
+                <el-input v-model="active_title" placeholder="请输入活动标题 例：加息联盟 邀您加入"></el-input>
+                <h5>添加活动介绍：</h5>
+                <el-input v-model="active_desc" placeholder="请输入活动介绍 例：华安未来战略入股 收益开启安全加速"></el-input>
+                <h5>添加活动链接地址：</h5>
+                <el-input v-model="active_url" placeholder="请输入活动链接地址 例：https://image.ppmiao.com/Public/activity/Notice20170717_alliance/index.html"></el-input>
+            </div>
+            <div class="first-pic">
+                <h5>设置图片数量：</h5>
+                <p style="color:#F56C00">
+                    图片分辨率必须为 750*750
+                </p>
+                <el-input v-model="input" placeholder="请输入图片数"></el-input>
+                <h5>设置最后一张图片的高度：</h5>
+                <el-input v-model="lastPic_height" placeholder="请输入数字（单位:px）例：300" style='width:5.5rem'></el-input>
+                <el-button @click="lastheight" style="padding: 10px 20px;">转为rem</el-button>
+                <h5>选择图片的添加方式：</h5>
+                <el-switch :width = '90' v-model="updata" on-color="#13ce66" off-color="#ff4949" on-text="添加CDN" off-text="本地上传">
+                </el-switch>
+            </div>
+            <el-input v-if="(pic__number != undefined || pic__number.length != 0) && updata == true" v-for="(item,index) in pic__number" v-model="pic[index]" placeholder="请按填写图片cdn"></el-input>
+            <el-button v-if="updata == true" @click="preview" style="margin-top: 15px;" type="warning">预览生成页</el-button>
+            <div class="" v-if="updata == false">
+                <input v-for="(item,index) in pic__number" type="file" class="file-input" @change="addImg(index)" multiple webkitRelativePath>
+                <el-button size="small" type="primary" @click="imgShow">点击上传</el-button>
+                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            </div>
+            <div class="config-time">
+                <h5>设置活动时间：(例如：活动时间：2017年7月1日-7月3日)</h5>
+                <el-input v-model="active_time" placeholder="请输入活动时间"></el-input>
+                <el-input v-model="active_time_color" placeholder="请输入活动时间的颜色 例：#fff"></el-input>
+                <el-button @click="upheight">上移</el-button>
+                <el-button @click="downheight">下移</el-button>
+                <el-input v-model="font_size_input" placeholder="字号（单位:px)" style="width:3rem;margin-left:10px"></el-input>
+            </div>
+            <div class="last-pic">
+                <h5>设置按钮：</h5>
+                <el-dropdown @command="handleCommand" style="margin:10px 0">
+                  <span class="el-dropdown-link">
+                    {{investment_Name || '跳转页面'}}<i class="el-icon-caret-bottom el-icon--right"></i>
+                  </span>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item command='首页' name="1">首页</el-dropdown-item>
+                    <el-dropdown-item command='产品列表' name="2">产品列表</el-dropdown-item>
+                    <el-dropdown-item command='账户中心' name="3">账户中心</el-dropdown-item>
+                    <el-dropdown-item command='更多页' name="4">更多页</el-dropdown-item>
+                    <el-dropdown-item command='我的奖励' name="5">我的奖励</el-dropdown-item>
+                    <el-dropdown-item command='好友推荐' name="6">好友推荐</el-dropdown-item>
+                    <el-dropdown-item command='我的钱包' name="7">我的钱包</el-dropdown-item>
+                    <el-dropdown-item command='银行卡列表' name="8">银行卡列表</el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
+                <el-input v-model="investment_str" placeholder="请输入按钮文字 例：立即投资"></el-input>
+                <el-input v-model="investment_bg" placeholder="请输入按钮背景颜色 例：#fff"></el-input>
+                <el-input v-model="investment_color" placeholder="请输入按钮文字颜色 例：#fff"></el-input>
+            </div>
+            <el-button type="primary" style="margin: 10px 0 20px" @click="downloadHTML()">生成HTML</el-button>
         </div>
-        <div class="first-pic">
-            <h5>设置图片数量：</h5>
-            <p style="color:#F56C00">
-                图片分辨率必须为 750*750
-            </p>
-            <el-input v-model="input" placeholder="请输入图片数"></el-input>
-            <h5>设置最后一张图片的高度：</h5>
-            <el-input v-model="lastPic_height" placeholder="请输入数字（单位:px）例：300" style='width:5.5rem'></el-input>
-            <el-button @click="lastheight" style="padding: 10px 20px;">转为rem</el-button>
-            <h5>选择图片的添加方式：</h5>
-            <el-switch :width = '90' v-model="updata" on-color="#13ce66" off-color="#ff4949" on-text="添加CDN" off-text="本地上传">
-            </el-switch>
-        </div>
-        <el-input v-if="(pic__number != undefined || pic__number.length != 0) && updata == true" v-for="(item,index) in pic__number" v-model="pic[index]" placeholder="请按填写图片cdn"></el-input>
-        <el-button v-if="updata == true" @click="preview" style="margin-top: 15px;" type="warning">预览生成页</el-button>
-        <div class="" v-if="updata == false">
-            <input v-for="(item,index) in pic__number" type="file" class="file-input" @change="addImg(index)" multiple webkitRelativePath>
-            <el-button size="small" type="primary" @click="imgShow">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-        </div>
-        <div class="config-time">
-            <h5>设置活动时间：(例如：活动时间：2017年7月1日-7月3日)</h5>
-            <el-input v-model="active_time" placeholder="请输入活动时间"></el-input>
-            <el-input v-model="active_time_color" placeholder="请输入活动时间的颜色 例：#fff"></el-input>
-            <el-button @click="upheight">上移</el-button>
-            <el-button @click="downheight">下移</el-button>
-            <el-input v-model="font_size_input" placeholder="字号（单位:px)" style="width:3rem;margin-left:10px"></el-input>
-        </div>
-        <div class="last-pic">
-            <h5>设置按钮：</h5>
-            <el-dropdown @command="handleCommand" style="margin:10px 0">
-              <span class="el-dropdown-link">
-                {{investment_Name || '跳转页面'}}<i class="el-icon-caret-bottom el-icon--right"></i>
-              </span>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command='首页' name="1">首页</el-dropdown-item>
-                <el-dropdown-item command='产品列表' name="2">产品列表</el-dropdown-item>
-                <el-dropdown-item command='账户中心' name="3">账户中心</el-dropdown-item>
-                <el-dropdown-item command='更多页' name="4">更多页</el-dropdown-item>
-                <el-dropdown-item command='我的奖励' name="5">我的奖励</el-dropdown-item>
-                <el-dropdown-item command='好友推荐' name="6">好友推荐</el-dropdown-item>
-                <el-dropdown-item command='我的钱包' name="7">我的钱包</el-dropdown-item>
-                <el-dropdown-item command='银行卡列表' name="8">银行卡列表</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-            <el-input v-model="investment_str" placeholder="请输入按钮文字 例：立即投资"></el-input>
-            <el-input v-model="investment_bg" placeholder="请输入按钮背景颜色 例：#fff"></el-input>
-            <el-input v-model="investment_color" placeholder="请输入按钮文字颜色 例：#fff"></el-input>
-        </div>
-        <el-button type="primary" style="margin: 10px 0 20px" @click="downloadHTML()">生成HTML</el-button>
+
+
     </div>
     <div class="iphone">
         <div class="view">
@@ -86,6 +104,7 @@ export default {
             active_time: '活动时间：2017年7月1日-7月3日',
             active_time_color: '',
             top: 5,
+            isMenuOpen: true,
             lastPic_height: '',
             font_size: 0.3733,
             font_size_input:'',
@@ -299,6 +318,10 @@ export default {
         },
         imgShow: function(){
             this.renderArr = this.imgDataArr;
+        },
+        toggleMenu:function(){
+            this.isMenuOpen = !this.isMenuOpen;
+            console.log(this.isMenuOpen);
         }
     },
     watch: {
@@ -385,21 +408,67 @@ body {
         bottom: 0;
         left: 0;
         overflow: scroll;
-        .first-pic {
-            width: 8rem;
+        .openMenu {
+            margin: .2rem;
+            width: 30px;
+            height: 26px;
+            background-color: #F56C00;
+            padding-top: 4px;
+            i {
+                display: block;
+                width: 16px;
+                height: 3px;
+                margin: 3px auto;
+                background-color: #fff;
+            }
         }
-        .last-pic {
-            width: 6.7rem;
+        .menu {
+            background-color: pink;
+            float: left;
+            position: absolute;
+            left: 0;
+            width: 3rem;
+            max-width: 4rem;
+            height: 10rem;
+            z-index: 99;
+            ul {
+                width: 100px;
+                height: 200px;
+                li {
+                    width: 100%;
+                    height: .67rem;
+                    line-height: .67rem;
+                    padding-left: .13rem;
+                }
+                li:hover {
+                    background-color: rgba(255, 0, 0, 0.3);
+                }
+            }
+
         }
-        h5 {
-            margin: 15px 0 5px;
+        // .menu:hover {
+        //     left:300px;
+        // }
+        .setList {
+            float: left;
+            padding-top: .73rem;
+            .first-pic {
+                width: 8rem;
+            }
+            .last-pic {
+                width: 6.7rem;
+            }
+            h5 {
+                margin: 15px 0 5px;
+            }
+            .el-input__inner {
+                margin: 3px 0;
+            }
+            .config-time {
+                width: 6.7rem;
+            }
         }
-        .el-input__inner {
-            margin: 3px 0;
-        }
-        .config-time {
-            width: 6.7rem;
-        }
+
     }
     .iphone{
         width: 11.62rem;
@@ -421,5 +490,13 @@ body {
         right: 0.84rem;
         overflow: scroll;
     }
+
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+  opacity: 0
 }
 </style>
