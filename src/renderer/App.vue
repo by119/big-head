@@ -1,20 +1,18 @@
 <template>
 <div id="app">
     <div class="setting" style="height:24rem;">
-        <div class="openMenu" @click="toggleMenu"><i></i><i></i><i></i></div>
-            <div>
-                <transition name="fade">
-                    <div class="menu" v-if="isMenuOpen">
-                        <ul>
-                            <li>111111111111</li>
-                            <li>222222222222</li>
-                            <li>333333333333</li>
-                            <li>444444444444</li>
-                            <li>555555555555</li>
-                        </ul>
-                    </div>
-                </transition>
+
+            <div :class="{'menu':true,'add':isMenuOpen}">
+                <div class="openMenuBox">
+                    <div class="openMenuCover"></div>
+                    <div class="openMenu" @click="MenuOpen">{{openMenuText}}</div>
+                </div>
+                <ul>
+                    <li class="list">目录</li>
+                    <li class="collection-item" v-for="menuList in menuLists" :class="{active: menuListName == menuList}" @click="selecteMenu(menuList)">{{menuList}}</li>
+                </ul>
             </div>
+
         <div class="setList">
             <div style="max-width:17rem;">
                 <h5>添加活动标题：</h5>
@@ -104,7 +102,8 @@ export default {
             active_time: '活动时间：2017年7月1日-7月3日',
             active_time_color: '',
             top: 5,
-            isMenuOpen: true,
+            isMenuOpen: false,
+            openMenuText:"»",
             lastPic_height: '',
             font_size: 0.3733,
             font_size_input:'',
@@ -121,6 +120,8 @@ export default {
             active_title: '',
             active_desc: '',
             updata: true,
+            menuLists:['看书', '听歌', '游泳', '健身', '看电影', '旅游'],
+            menuListName: '',
             fileList: [{
                     name: 'food.jpeg',
                     url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
@@ -319,9 +320,18 @@ export default {
         imgShow: function(){
             this.renderArr = this.imgDataArr;
         },
-        toggleMenu:function(){
-            this.isMenuOpen = !this.isMenuOpen;
-            console.log(this.isMenuOpen);
+        selecteMenu: function(menuList){
+            this.menuListName = menuList;
+        },
+        MenuOpen: function() {
+            this.isMenuOpen=!this.isMenuOpen;
+            if(this.isMenuOpen){
+                this.openMenuText = "«";
+            }else{
+                this.openMenuText = "»";
+            }
+
+
         }
     },
     watch: {
@@ -401,47 +411,75 @@ body {
     font-family: Helvetica, sans-serif;
     .setting {
         background-color: #EFD9C7;
-        width: calc(100% - 13rem);
-        padding: 0 0.33rem;
+        width: calc(100% - 13.8rem);
+        padding: 0 0.8rem;
         position: absolute;
         top: 0;
         bottom: 0;
         left: 0;
         overflow: scroll;
-        .openMenu {
-            margin: .2rem;
-            width: 30px;
-            height: 26px;
-            background-color: #F56C00;
-            padding-top: 4px;
-            i {
-                display: block;
-                width: 16px;
-                height: 3px;
-                margin: 3px auto;
-                background-color: #fff;
+        .openMenuBox {
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            position: absolute;
+            border-radius: 50%;
+            top: 50%;
+            right: -25px;
+            margin-top: -25px;
+            text-align: right;
+            font-size: 26px;
+            z-index: 98;
+            .openMenuCover {
+                width: 25px;
+                height: 50px;
+                position: absolute;
+                background-color: #FCD6A1;
+                z-index: 12;
+            }
+            .openMenu {
+                width: 44px;
+                height: 50px;
+                padding-right: 6px;
+                line-height: 50px;
+                position: absolute;
+                border-radius: 50%;
+                position: absolute;
+                // background-color: #F56C00;
+                background-color: rgba(245,108,0,0.5);
+                color: #fff;
+
             }
         }
+        .add {
+            left:0rem!important;
+        }
         .menu {
-            background-color: pink;
+            background-color: #FCD6A1;
             float: left;
-            position: absolute;
-            left: 0;
-            width: 3rem;
-            max-width: 4rem;
-            height: 10rem;
+            position: fixed;
+            left: -4rem;
+            width: 4rem;
+            height: 23.66rem;
             z-index: 99;
+            transition: left 0.5s;
             ul {
-                width: 100px;
-                height: 200px;
+                width: 100%;
+                .list {
+                    font-size: 26px;
+                    height: 1.5rem;
+                    line-height: 1.5rem;
+                }
                 li {
                     width: 100%;
-                    height: .67rem;
-                    line-height: .67rem;
-                    padding-left: .13rem;
+                    height: 1rem;
+                    line-height: 1rem;
+                    text-align: center;
+                    font-size: 18px;
+                    color: #333;
                 }
-                li:hover {
-                    background-color: rgba(255, 0, 0, 0.3);
+                .active {
+                    background-color: rgba(245,108,0,0.5);
                 }
             }
 
@@ -491,12 +529,5 @@ body {
         overflow: scroll;
     }
 
-}
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
-  opacity: 0
 }
 </style>
