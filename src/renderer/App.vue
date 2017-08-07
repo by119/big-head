@@ -12,10 +12,10 @@
                     <li class="collection-item" v-for="(menuList,index) in menuLists" :class="{active: menuListName == menuList}" :id="'menuList'+index" @click="selecteMenu(menuList)">{{menuList}}</li>
                 </ul>
             </div>
-            <div class="ListSetting">
+            <div class="menuListSetting">
                     <div v-show="menuListName == '头部跑马灯'">
-                        <h5>头部跑马灯：{{menuListName}}</h5>
-                        <el-input v-model="active_title" placeholder="请输入活动标题 例：加息联盟 邀您加入"></el-input>
+                        <h5>头部跑马灯数据接口：</h5>
+                        <el-input v-model="scroll_port" placeholder="请输入数据接口 例：http://114.55.85.42:2018/winningList"></el-input>
                     </div>
                     <div v-show="menuListName == '听歌'">
                         <h5>添加活动标题：{{menuListName}}</h5>
@@ -94,10 +94,40 @@
         <div class="view">
             <div ref="app">
                 <div class="container">
+                    <div class="scrollBox">
+                        <div class="scroll_notice">
+            				<img src="http://image.test.ppmiao.com/Public/images/voice.png"/>
+            			</div>
+                        <div class="scrollContent scrollAct">
+                            <ul>
+                                <li>150****1142获得大头喵公仔</li>
+                                <li>150****1142获得大头喵公仔</li>
+                                <li>150****1142获得大头喵公仔</li>
+                                <li>150****1142获得大头喵公仔</li>
+                                <li>150****1142获得大头喵公仔</li>
+                                <li>150****1142获得大头喵公仔</li>
+                                <li>150****1142获得大头喵公仔</li>
+                                <li>150****1142获得大头喵公仔</li>
+                                <li>150****1142获得大头喵公仔</li>
+                                <li>150****1142获得大头喵公仔</li>
+                                <li>150****1142获得大头喵公仔</li>
+                                <li>150****1142获得大头喵公仔</li>
+                                <li>150****1142获得大头喵公仔</li>
+                                <li>150****1142获得大头喵公仔</li>
+                                <li>150****1142获得大头喵公仔</li>
+                                <li>150****1142获得大头喵公仔</li>
+                                <li>150****1142获得大头喵公仔</li>
+                                <li>150****1142获得大头喵公仔</li>
+                                <li>150****1142获得大头喵公仔</li>
+                                <li>150****1142获得大头喵公仔</li>
+                                <li>150****1142获得大头喵公仔</li>
+                            </ul>
+                        </div>
+                    </div>
                     <div v-if="renderArr.length != 0 && index + 1 != renderArr.length" v-for="(item,index) in pic__number" class="div__size" :style="'background-image:url('+ renderArr[index] +')'"></div>
                     <div v-else class="div__size" :style="'background-image:url('+ renderArr[index] +');height:'+lastPic_height"></div>
                     <p class="event-date" :style="'top:'+ top + 'rem;' + 'font-size:'+ font_size + ';color:' + active_time_color + ';font-family: PingFangSC-Regular!important'">{{active_time}}</p>
-                    <div v-show="investment_str !== ''" class="investment" :style="'color:' + investment_color +
+                    <div v-show="investment_str !== ''" class="investment" :style="'position:absolute!important;color:' + investment_color +
                       ';background-color:' + investment_bg + ';font-family: PingFangSC-Regular!important'">{{investment_str}}</div>
                     <span class="investment_page" style="display: none">{{investment_page}}</span>
                 </div>
@@ -133,6 +163,7 @@ export default {
             active_url: '',
             active_title: '',
             active_desc: '',
+            scroll_port:'http://114.55.85.42:2018/winningList',
             updata: true,
             menuLists:['头部跑马灯', '听歌', '游泳', '健身', '看电影', '旅游'],
             menuListName: '头部跑马灯',
@@ -146,7 +177,7 @@ export default {
                 }
             ],
             dataHeader1: "<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><meta content='yes' name='apple-mobile-web-app-capable'><meta content='yes' name='apple-touch-fullscreen'><meta content='telephone=no,email=no' name='format-detection'><title>",
-            dataHeader2: "</title><link rel='stylesheet' href='https://image.ppmiao.com/Public/css/common.css'>" + '<scr' + 'ipt src="https://image.ppmiao.com/Public/js/flexible.js"></scr' + 'ipt><scr' +
+            dataHeader2: '</title><link rel="stylesheet" href="https://image.ppmiao.com/Public/css/common.css"><link rel="stylesheet" href="./menu.css">' + '<scr' + 'ipt src="https://image.ppmiao.com/Public/js/flexible.js"></scr' + 'ipt><scr' +
                 'ipt src="https://image.ppmiao.com/Public/js/flexible_css.js"></scr' + 'ipt><scr' + 'ipt src="https://image.ppmiao.com/Public/js/jquery.min.js"></scr' + 'ipt>' + '<scr' + 'ipt src="https://image.ppmiao.com/Public/js/go2app.js"></scr' + 'ipt>' + '<scr' +
                 'ipt src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript" charset="utf-8">' + '</scr' + 'ipt>',
             dataHeaderEnd: '</head><body><div style="display:none;"><img src="https://image.ppmiao.com/H5picture/common/300.png" /></div>',
@@ -241,14 +272,21 @@ export default {
                       }
                   });
               });` +
+              `
+                console.log(document.querySelector('.scrollAct').style.webkitTransform);
+              ` +
                 `</scr` + `ipt>`
         };
     },
     components: {},
     methods: {
         downloadHTML: function() {
+            document.querySelector(".investment").style.position = "fixed";
+            console.log(document.querySelector(".investment"));
             this.download('index.html', this.dataHeader1 + this.active_title + this.dataHeader2 + this.dataHeaderEnd + this.$refs.app.innerHTML + this.dataGo2AppBefore + this.investment_page + this.dataGo2AppAfter + this.dataWeixin1 +
                 this.active_url + this.dataWeixin2 + this.active_url + this.dataWeixin3 + this.active_title + this.dataWeixin4 + this.active_desc + this.dataWeixin5 + this.dataFooter);
+
+            document.querySelector(".investment").style.position = "absolute";
         },
         handleCommand(command) {
             this.investment_Name = command;
@@ -343,11 +381,11 @@ export default {
             if(this.isMenuOpen){
                 this.openMenuText = "«";
                 document.querySelector('.menuBox').style.width = "calc(100% - 13.8rem)";
-                document.querySelector('.ListSetting').style.display = "block";
+                document.querySelector('.menuListSetting').style.display = "block";
             }else{
                 this.openMenuText = "»";
                 document.querySelector('.menuBox').style.width = "4rem";
-                document.querySelector('.ListSetting').style.display = "none";
+                document.querySelector('.menuListSetting').style.display = "none";
             }
 
 
@@ -508,9 +546,9 @@ body {
             }
 
         }
-        .ListSetting {
+        .menuListSetting {
             width: calc(100% - 3.8rem);
-            height: 100%;
+            height: 22.66rem;
             padding: 0.5rem;
             background-color: #EFD9C7;
             position: absolute;
@@ -549,6 +587,7 @@ body {
         right: .3rem;
         top: .5rem;
     }
+    // .setting::-webkit-scrollbar{width:0;height:0}s
     .view {
         width: 10rem;
         background-color: #fff;
@@ -558,6 +597,7 @@ body {
         right: 0.84rem;
         overflow: scroll;
     }
+    .view::-webkit-scrollbar{width:0;height:0}
 
 }
 </style>
