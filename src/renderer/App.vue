@@ -1,17 +1,32 @@
 <template>
 <div id="app">
     <div class="setting" style="height:24rem;">
-
-            <div :class="{'menu':true,'add':isMenuOpen}">
+        <div :class="{'menuBox':true,'add':isMenuOpen}">
+            <div class="menu">
                 <div class="openMenuBox">
                     <div class="openMenuCover"></div>
                     <div class="openMenu" @click="MenuOpen">{{openMenuText}}</div>
                 </div>
                 <ul>
                     <li class="list">目录</li>
-                    <li class="collection-item" v-for="menuList in menuLists" :class="{active: menuListName == menuList}" @click="selecteMenu(menuList)">{{menuList}}</li>
+                    <li class="collection-item" v-for="(menuList,index) in menuLists" :class="{active: menuListName == menuList}" :id="'menuList'+index" @click="selecteMenu(menuList)">{{menuList}}</li>
                 </ul>
             </div>
+            <div class="ListSetting">
+                    <div v-show="menuListName == '头部跑马灯'">
+                        <h5>头部跑马灯：{{menuListName}}</h5>
+                        <el-input v-model="active_title" placeholder="请输入活动标题 例：加息联盟 邀您加入"></el-input>
+                    </div>
+                    <div v-show="menuListName == '听歌'">
+                        <h5>添加活动标题：{{menuListName}}</h5>
+                        <el-input v-model="active_title" placeholder="请输入活动标题 例：加息联盟 邀您加入"></el-input>
+                    </div>
+                    <div v-show="menuListName == '游泳'">
+                        <h5>添加活动标题：{{menuListName}}</h5>
+                        <el-input v-model="active_title" placeholder="请输入活动标题 例：加息联盟 邀您加入"></el-input>
+                    </div>
+            </div>
+        </div>
 
         <div class="setList">
             <div style="max-width:17rem;">
@@ -74,7 +89,6 @@
             <el-button type="primary" style="margin: 10px 0 20px" @click="downloadHTML()">生成HTML</el-button>
         </div>
 
-
     </div>
     <div class="iphone">
         <div class="view">
@@ -120,8 +134,8 @@ export default {
             active_title: '',
             active_desc: '',
             updata: true,
-            menuLists:['看书', '听歌', '游泳', '健身', '看电影', '旅游'],
-            menuListName: '',
+            menuLists:['头部跑马灯', '听歌', '游泳', '健身', '看电影', '旅游'],
+            menuListName: '头部跑马灯',
             fileList: [{
                     name: 'food.jpeg',
                     url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
@@ -322,13 +336,18 @@ export default {
         },
         selecteMenu: function(menuList){
             this.menuListName = menuList;
+
         },
         MenuOpen: function() {
             this.isMenuOpen=!this.isMenuOpen;
             if(this.isMenuOpen){
                 this.openMenuText = "«";
+                document.querySelector('.menuBox').style.width = "calc(100% - 13.8rem)";
+                document.querySelector('.ListSetting').style.display = "block";
             }else{
                 this.openMenuText = "»";
+                document.querySelector('.menuBox').style.width = "4rem";
+                document.querySelector('.ListSetting').style.display = "none";
             }
 
 
@@ -454,15 +473,20 @@ body {
         .add {
             left:0rem!important;
         }
-        .menu {
-            background-color: #FCD6A1;
-            float: left;
-            position: fixed;
-            left: -4rem;
+        .menuBox {
             width: 4rem;
             height: 23.66rem;
-            z-index: 99;
+            position: fixed;
+            left: -4rem;
             transition: left 0.5s;
+            z-index: 99;
+        }
+        .menu {
+            position: absolute;
+            background-color: #FCD6A1;
+            float: left;
+            width: 4rem;
+            height: 100%;
             ul {
                 width: 100%;
                 .list {
@@ -484,9 +508,15 @@ body {
             }
 
         }
-        // .menu:hover {
-        //     left:300px;
-        // }
+        .ListSetting {
+            width: calc(100% - 3.8rem);
+            height: 100%;
+            padding: 0.5rem;
+            background-color: #EFD9C7;
+            position: absolute;
+            left: 4rem;
+            display: none;
+        }
         .setList {
             float: left;
             padding-top: .73rem;
