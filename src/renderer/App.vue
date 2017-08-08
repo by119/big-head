@@ -15,14 +15,15 @@
             <div class="menuListSetting">
                     <div v-show="menuListName == '头部跑马灯'">
                         <h5>头部跑马灯数据接口：</h5>
-                        <el-input v-model="scroll_port" placeholder="请输入数据接口 例：http://114.55.85.42:2018/winningList"></el-input>
+                        <el-input v-model="scroll_port" placeholder="请输入数据接口 例：http://114.55.85.42:2018/winningList" @change="getScrollListLength"></el-input>
+                        <el-button @click="upheight">上移</el-button>
                     </div>
                     <div v-show="menuListName == '听歌'">
-                        <h5>添加活动标题：{{menuListName}}</h5>
+                        <h5>添加活动标题：</h5>
                         <el-input v-model="active_title" placeholder="请输入活动标题 例：加息联盟 邀您加入"></el-input>
                     </div>
                     <div v-show="menuListName == '游泳'">
-                        <h5>添加活动标题：{{menuListName}}</h5>
+                        <h5>添加活动标题：</h5>
                         <el-input v-model="active_title" placeholder="请输入活动标题 例：加息联盟 邀您加入"></el-input>
                     </div>
             </div>
@@ -94,34 +95,33 @@
         <div class="view">
             <div ref="app">
                 <div class="container">
-                    <div class="scrollBox">
-                        <div class="scroll_notice">
-            				<img src="http://image.test.ppmiao.com/Public/images/voice.png"/>
-            			</div>
-                        <div class="scrollContent scrollAct">
-                            <ul>
-                                <li>150****1142获得大头喵公仔</li>
-                                <li>150****1142获得大头喵公仔</li>
-                                <li>150****1142获得大头喵公仔</li>
-                                <li>150****1142获得大头喵公仔</li>
-                                <li>150****1142获得大头喵公仔</li>
-                                <li>150****1142获得大头喵公仔</li>
-                                <li>150****1142获得大头喵公仔</li>
-                                <li>150****1142获得大头喵公仔</li>
-                                <li>150****1142获得大头喵公仔</li>
-                                <li>150****1142获得大头喵公仔</li>
-                                <li>150****1142获得大头喵公仔</li>
-                                <li>150****1142获得大头喵公仔</li>
-                                <li>150****1142获得大头喵公仔</li>
-                                <li>150****1142获得大头喵公仔</li>
-                                <li>150****1142获得大头喵公仔</li>
-                                <li>150****1142获得大头喵公仔</li>
-                                <li>150****1142获得大头喵公仔</li>
-                                <li>150****1142获得大头喵公仔</li>
-                                <li>150****1142获得大头喵公仔</li>
-                                <li>150****1142获得大头喵公仔</li>
-                                <li>150****1142获得大头喵公仔</li>
-                            </ul>
+                    <div class="scrollContainer">
+                        <div class="scrollBox">
+                            <div class="scroll_notice">
+                				<img src="http://image.test.ppmiao.com/Public/images/voice.png"/>
+                			</div>
+                            <div class="scrollOut" :style="'width:'+scrollListLength*3+'rem;height:1.2rem;position: relative;'">
+                                <div class="scrollContent scrollAct">
+                                    <ul id="scrollUl">
+                                        <li>150****1142获得大头喵公仔</li>
+                                        <li>150****1142获得100会员积分</li>
+                                        <li>150****1142获得大头喵公仔</li>
+                                        <li>150****1142获得大头喵公仔</li>
+                                        <li>150****1142获得大头喵公仔</li>
+                                        <li>150****1142获得300会员积分</li>
+                                        <li>186****6769获得20元红包</li>
+                                        <li>186****6769获得10元现金券</li>
+                                        <li>150****1142获得2%加息券</li>
+                                        <li>150****1142获得300会员积分</li>
+                                        <li>182****5626获得300会员积分</li>
+                                        <li>182****5626获得2%加息券</li>
+                                        <li>150****1142获得300会员积分</li>
+                                        <li>150****1142获得300会员积分</li>
+                                        <li>182****5626获得20元红包</li>
+                                        <li>182****5626获得2元现金券</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div v-if="renderArr.length != 0 && index + 1 != renderArr.length" v-for="(item,index) in pic__number" class="div__size" :style="'background-image:url('+ renderArr[index] +')'"></div>
@@ -138,6 +138,7 @@
 </template>
 <script src="https://image.ppmiao.com/Public/js/jquery.min.js"></script>
 <script>
+import $ from 'jquery';
 export default {
     name: 'big-head',
     data() {
@@ -164,6 +165,7 @@ export default {
             active_title: '',
             active_desc: '',
             scroll_port:'http://114.55.85.42:2018/winningList',
+            scrollListLength:2,
             updata: true,
             menuLists:['头部跑马灯', '听歌', '游泳', '健身', '看电影', '旅游'],
             menuListName: '头部跑马灯',
@@ -185,9 +187,53 @@ export default {
             dataGo2AppBefore: '<scr' + 'ipt>' + '$(".investment").click( function(){go2App(',
             dataGo2AppAfter: ')})' + '</scr' + 'ipt>',
             dataWeixin1: `<scr` + `ipt>` +
-                `var result = "";
+                `function getQueryString(name) {
+        			var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+        			var r = window.location.search.substr(1).match(reg);
+        			if (r != null) return unescape(r[2]);
+        			return null;
+        		}
+        		var versionName = getQueryString("versionName");
+        		var version = getQueryString("version");
+        		var token = getQueryString("data");
+        		if (versionName === null) {
+        			if (version != null) {
+        				versionName = version
+        			} else {
+        				versionName = versionName
+        			}
+        		}
+        		token = 'VEtfMjAxNzA3MDcxNTUyMzZfNjY0MThfMjE0Nzgx';
+
+                var result = "";
+
                   $(document).ready(function() {
+                      // 头部跑马灯数据
                       $.ajax({
+              			url: 'http://114.55.85.42:2018/winningList',
+              			data: {
+              				versionName: versionName,
+              				token: token,
+              				count: '20',
+              				type: '1',
+              				dev:1
+              			},
+              			dataType: 'json',
+              			type: 'POST',
+              			success: function(data) {
+                            console.log(data);
+              				var message = "";
+                            var  len = data.info.length;
+              				for (var i = 0; i < len; i++) {
+                                message += '<li>'+ data.info[i].user_name.substring(0, 3) + '****' + data.info[i].user_name.substring(data.info[i].user_name.length - 4, data.info[i].user_name.length) + '获得' + data.info[i].prize_name +'</li>';
+                            }
+                            $('#scrollUl').html();
+              				$('#scrollUl').append(message);
+                            this.scrollListLength = len;
+                            console.log(this.scrollListLength);
+              			}
+              		})
+                    $.ajax({
                           type: 'POST',
                           url: 'https://sailsact.ppmiao.com/wxToken',
                           data: {
@@ -271,21 +317,18 @@ export default {
                           //alert(JSON.stringify(res));
                       }
                   });
-              });` +
-              `
-                console.log(document.querySelector('.scrollAct').style.webkitTransform);
-              ` +
-                `</scr` + `ipt>`
+              }); </scr` + `ipt>`
         };
     },
     components: {},
     methods: {
         downloadHTML: function() {
             document.querySelector(".investment").style.position = "fixed";
-            console.log(document.querySelector(".investment"));
+            // console.log(document.querySelector(".investment"));
             this.download('index.html', this.dataHeader1 + this.active_title + this.dataHeader2 + this.dataHeaderEnd + this.$refs.app.innerHTML + this.dataGo2AppBefore + this.investment_page + this.dataGo2AppAfter + this.dataWeixin1 +
                 this.active_url + this.dataWeixin2 + this.active_url + this.dataWeixin3 + this.active_title + this.dataWeixin4 + this.active_desc + this.dataWeixin5 + this.dataFooter);
 
+                console.log(this.scrollListLength);
             document.querySelector(".investment").style.position = "absolute";
         },
         handleCommand(command) {
@@ -387,8 +430,24 @@ export default {
                 document.querySelector('.menuBox').style.width = "4rem";
                 document.querySelector('.menuListSetting').style.display = "none";
             }
-
-
+        },
+        getScrollListLength: function(){
+            console.log(this.scrollListLength);
+            $.ajax({
+                url: 'http://114.55.85.42:2018/winningList',
+                data: {
+                    versionName: versionName,
+                    token: token,
+                    count: '20',
+                    type: '1',
+                    dev:1
+                },
+                dataType: 'json',
+                type: 'POST',
+                success: function(data) {
+                    console.log(data);
+                }
+            });
         }
     },
     watch: {
@@ -415,6 +474,16 @@ export default {
         active_url: function() {
             if (this.active_url !== '') {
                 return this.active_url;
+            }
+        },
+        scroll_port: function() {
+            if (this.scroll_port !== '') {
+                return this.scroll_port;
+            }
+        },
+        scrollListLength: function() {
+            if (this.scrollListLength !== '') {
+                return this.scrollListLength;
             }
         },
         investment_str: function() {
@@ -587,7 +656,7 @@ body {
         right: .3rem;
         top: .5rem;
     }
-    // .setting::-webkit-scrollbar{width:0;height:0}s
+    // .setting::-webkit-scrollbar{width:0;height:0}
     .view {
         width: 10rem;
         background-color: #fff;
@@ -600,4 +669,54 @@ body {
     .view::-webkit-scrollbar{width:0;height:0}
 
 }
+
+// 头部跑马灯
+.scrollContainer {
+	width: 10rem;
+	height: 1.2rem;
+	background-color: #faecdd;
+    overflow: hidden;
+	.scrollBox {
+		position: relative;
+		width: 15rem;
+		height: 1.2rem;
+		.scroll_notice {
+			width: 0.8rem;
+			height: 1.2rem;
+			line-height: 1.2rem;
+			padding-left: 15px;
+			float: left;
+			background-color: #faecdd;
+			position: absolute;
+			z-index: 1;
+			img {
+				width: 0.5rem;
+				background-color: #faecdd;
+				vertical-align: middle;
+			}
+		}
+		.scrollContent {
+			position: absolute;
+			height: 1.2rem;
+	    	line-height: 1.2rem;
+			color: #793603;
+			animation: scrollAct 25s infinite linear;
+			ul {
+				li {
+					float: left;
+					margin: 0 15px;
+				}
+			}
+		}
+	}
+
+
+}
+@keyframes scrollAct
+{
+from {left:0rem;}
+to {left:-100%;}
+}
+
+
 </style>
