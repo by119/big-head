@@ -95,15 +95,14 @@
         <div class="view">
             <div ref="app">
                 <div class="container">
-                    <div class="scrollContainer">
+                    <div class="scrollContainer" v-show="scroll_port !== ''">
                         <div class="scrollBox">
                             <div class="scroll_notice">
                 				<img src="http://image.test.ppmiao.com/Public/images/voice.png"/>
                 			</div>
-                            <div class="scrollOut" :style="'width:'+scrollListLength*3+'rem;height:1.2rem;position: relative;'">
+                            <div class="scrollOut" :style="'width:' + scrollListLength * 5 + 'rem;height:1.2rem;position: relative;'">
                                 <div class="scrollContent scrollAct">
                                     <ul id="scrollUl">
-                                        <li>150****1142获得大头喵公仔</li>
                                         <li>150****1142获得100会员积分</li>
                                         <li>150****1142获得大头喵公仔</li>
                                         <li>150****1142获得大头喵公仔</li>
@@ -119,6 +118,11 @@
                                         <li>150****1142获得300会员积分</li>
                                         <li>182****5626获得20元红包</li>
                                         <li>182****5626获得2元现金券</li>
+                                        <li>182****5626获得100会员积分</li>
+                                        <li>182****5626获得10元现金券</li>
+                                        <li>182****5626获得100会员积分</li>
+                                        <li>182****5626获得2元现金券</li>
+                                        <li>182****5626获得300会员积分</li>
                                     </ul>
                                 </div>
                             </div>
@@ -138,6 +142,7 @@
 </template>
 <script src="https://image.ppmiao.com/Public/js/jquery.min.js"></script>
 <script>
+
 import $ from 'jquery';
 export default {
     name: 'big-head',
@@ -164,8 +169,8 @@ export default {
             active_url: '',
             active_title: '',
             active_desc: '',
-            scroll_port:'http://114.55.85.42:2018/winningList',
-            scrollListLength:2,
+            scroll_port:'',
+            scrollListLength:0,
             updata: true,
             menuLists:['头部跑马灯', '听歌', '游泳', '健身', '看电影', '旅游'],
             menuListName: '头部跑马灯',
@@ -179,7 +184,7 @@ export default {
                 }
             ],
             dataHeader1: "<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><meta content='yes' name='apple-mobile-web-app-capable'><meta content='yes' name='apple-touch-fullscreen'><meta content='telephone=no,email=no' name='format-detection'><title>",
-            dataHeader2: '</title><link rel="stylesheet" href="https://image.ppmiao.com/Public/css/common.css"><link rel="stylesheet" href="./menu.css">' + '<scr' + 'ipt src="https://image.ppmiao.com/Public/js/flexible.js"></scr' + 'ipt><scr' +
+            dataHeader2: '</title><link rel="stylesheet" href="https://image.ppmiao.com/Public/css/common.css"><link rel="stylesheet" href="https://image.ppmiao.com/Public/css/menu.css">' + '<scr' + 'ipt src="https://image.ppmiao.com/Public/js/flexible.js"></scr' + 'ipt><scr' +
                 'ipt src="https://image.ppmiao.com/Public/js/flexible_css.js"></scr' + 'ipt><scr' + 'ipt src="https://image.ppmiao.com/Public/js/jquery.min.js"></scr' + 'ipt>' + '<scr' + 'ipt src="https://image.ppmiao.com/Public/js/go2app.js"></scr' + 'ipt>' + '<scr' +
                 'ipt src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript" charset="utf-8">' + '</scr' + 'ipt>',
             dataHeaderEnd: '</head><body><div style="display:none;"><img src="https://image.ppmiao.com/H5picture/common/300.png" /></div>',
@@ -206,11 +211,11 @@ export default {
         		token = 'VEtfMjAxNzA3MDcxNTUyMzZfNjY0MThfMjE0Nzgx';
 
                 var result = "";
-
                   $(document).ready(function() {
                       // 头部跑马灯数据
                       $.ajax({
-              			url: 'http://114.55.85.42:2018/winningList',
+              			url: '`,
+            dataScroll: `',
               			data: {
               				versionName: versionName,
               				token: token,
@@ -227,7 +232,7 @@ export default {
               				for (var i = 0; i < len; i++) {
                                 message += '<li>'+ data.info[i].user_name.substring(0, 3) + '****' + data.info[i].user_name.substring(data.info[i].user_name.length - 4, data.info[i].user_name.length) + '获得' + data.info[i].prize_name +'</li>';
                             }
-                            $('#scrollUl').html();
+                            $('#scrollUl').html('');
               				$('#scrollUl').append(message);
                             this.scrollListLength = len;
                             console.log(this.scrollListLength);
@@ -325,7 +330,7 @@ export default {
         downloadHTML: function() {
             document.querySelector(".investment").style.position = "fixed";
             // console.log(document.querySelector(".investment"));
-            this.download('index.html', this.dataHeader1 + this.active_title + this.dataHeader2 + this.dataHeaderEnd + this.$refs.app.innerHTML + this.dataGo2AppBefore + this.investment_page + this.dataGo2AppAfter + this.dataWeixin1 +
+            this.download('index.html', this.dataHeader1 + this.active_title + this.dataHeader2 + this.dataHeaderEnd + this.$refs.app.innerHTML + this.dataGo2AppBefore + this.investment_page + this.dataGo2AppAfter + this.dataWeixin1 +  this.scroll_port + this.dataScroll +
                 this.active_url + this.dataWeixin2 + this.active_url + this.dataWeixin3 + this.active_title + this.dataWeixin4 + this.active_desc + this.dataWeixin5 + this.dataFooter);
 
                 console.log(this.scrollListLength);
@@ -377,12 +382,9 @@ export default {
               var element = document.createElement('a');
               element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
               element.setAttribute('download', filename);
-
               element.style.display = 'none';
               document.body.appendChild(element);
-
               element.click();
-
               document.body.removeChild(element);
         },
         preview: function() {
@@ -417,7 +419,6 @@ export default {
         },
         selecteMenu: function(menuList){
             this.menuListName = menuList;
-
         },
         MenuOpen: function() {
             this.isMenuOpen=!this.isMenuOpen;
@@ -432,12 +433,11 @@ export default {
             }
         },
         getScrollListLength: function(){
-            console.log(this.scrollListLength);
             $.ajax({
-                url: 'http://114.55.85.42:2018/winningList',
+                // url: 'http://114.55.85.42:2018/winningList',
+                url: this.scroll_port,
                 data: {
-                    versionName: versionName,
-                    token: token,
+                    token: 'VEtfMjAxNzA3MDcxNTUyMzZfNjY0MThfMjE0Nzgx',
                     count: '20',
                     type: '1',
                     dev:1
@@ -445,7 +445,8 @@ export default {
                 dataType: 'json',
                 type: 'POST',
                 success: function(data) {
-                    console.log(data);
+                    this.scrollListLength = data.info.length;
+                    document.querySelector(".scrollOut").style.width = this.scrollListLength * 5 + "rem";
                 }
             });
         }
@@ -700,11 +701,11 @@ body {
 			height: 1.2rem;
 	    	line-height: 1.2rem;
 			color: #793603;
-			animation: scrollAct 25s infinite linear;
+			animation: scrollAct 70s infinite linear;
 			ul {
 				li {
 					float: left;
-					margin: 0 15px;
+                    width: 5rem;
 				}
 			}
 		}
