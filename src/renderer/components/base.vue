@@ -98,11 +98,10 @@ export default {
     },
     methods: {
         downloadHTML: function () {
-            document.querySelector('.investment').style.position = 'fixed';
+            this.$emit('update:pro', false);
             this.download('index.html', dataHeader1 + this.active_title + dataHeader2 + dataHeaderEnd + this.render__html.app.innerHTML + dataGo2AppBefore + this.investment_page + dataGo2AppAfter + dataWeixin1 + this.scroll_port + dataScroll +
                 this.active_url + dataWeixin2 + this.active_url + dataWeixin3 + this.active_title + dataWeixin4 + this.active_desc + dataWeixin5 + dataFooter);
-
-            document.querySelector('.investment').style.position = 'absolute';
+            this.$emit('update:pro', true);
         },
         handleCommand (command) {
             this.investment_Name = command;
@@ -273,6 +272,7 @@ export default {
         bottom: 0;
         left: 0;
         overflow: scroll;
+        min-height: 25rem;
         .file-input{
             background-color: #fff;
             background-image: none;

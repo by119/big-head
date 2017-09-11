@@ -20,35 +20,34 @@
                     </div>
                     <div v-show="menuListName == '听歌'">
                         <h5>添加活动标题：</h5>
-                        <el-input v-model="active_title" placeholder="请输入活动标题 例：加息联盟 邀您加入"></el-input>
                     </div>
                     <div v-show="menuListName == '游泳'">
                         <h5>添加活动标题：</h5>
-                        <el-input v-model="active_title" placeholder="请输入活动标题 例：加息联盟 邀您加入"></el-input>
                     </div>
             </div>
         </div>
         <base-function :render__pic.sync="renderArr" :render__num.sync = "pic__number"  :render__lastPic_height.sync= "lastPic_height" :render__active_time.sync = 'active_time' :render__active_time_color.sync = 'active_time_color' :render__active_time_top.sync = "top" :render__font_size_input.sync = "font_size"
-        :render__investment_str.sync = "investment_str" :render__investment_bg.sync = "investment_bg" :render__investment_color.sync = "investment_color" :render__html="this.$refs"/>
+        :render__investment_str.sync = "investment_str" :render__investment_bg.sync = "investment_bg" :render__investment_color.sync = "investment_color" :render__html="this.$refs" :pro= "pro" />
     </div>
     <div class="iphone">
         <div class="view">
-            <div ref="app">
+            <div ref="app" style="height:17.75rem;">
                 <div class="container">
                     <div v-if="renderArr.length != 0 && index + 1 != renderArr.length" v-for="(item,index) in pic__number" class="div__size" :style="'background-image:url('+ renderArr[index] +')'"></div>
                     <div v-else class="div__size" :style="'background-image:url('+ renderArr[index] +');height:'+lastPic_height"></div>
                     <p class="event-date" :style="'top:'+ top + 'rem;' + 'font-size:'+ font_size + ';color:' + active_time_color + ';font-family: PingFangSC-Regular!important'">{{active_time}}</p>
-                    <div v-show="investment_str !== ''" class="investment" :style="'position:absolute!important;color:' + investment_color +
-                      ';background-color:' + investment_bg + ';font-family: PingFangSC-Regular!important'">{{investment_str}}</div>
-                    <span class="investment_page" style="display: none">{{investment_page}}</span>
                 </div>
+                <div v-show="investment_str !== ''"
+                :class="[{ positionStyle: pro }, 'investment']" :style="'color:' + investment_color +
+                  ';background-color:' + investment_bg + ';font-family: PingFangSC-Regular!important'">{{investment_str}}</div>
+                <span class="investment_page" style="display: none">{{investment_page}}</span>
             </div>
         </div>
     </div>
 </div>
 </template>
 <script>
-import $ from 'jquery';
+// import $ from 'jquery';
 import BaseFunction from './components/base.vue';
 export default {
     name: 'big-head',
@@ -65,19 +64,14 @@ export default {
             font_size_input:'',
             pic__number: 0,
             pic: [],
-            imgDataArr: [],
             renderArr: [],
             investment_str: '',
             investment_bg: '',
             investment_color: '',
             investment_page: '',
-            investment_Name: '',
-            active_url: '',
-            active_title: '',
-            active_desc: '',
             scroll_port:'',
             scrollListLength:0,
-            updata: true,
+            pro: true,
             menuLists:['头部跑马灯', '听歌', '游泳', '健身', '看电影', '旅游'],
             menuListName: '头部跑马灯',
         };
@@ -98,22 +92,22 @@ export default {
             }
         },
         getScrollListLength: function () {
-            $.ajax({
-                // url: 'http://114.55.85.42:2018/winningList',
-                url: this.scroll_port,
-                data: {
-                    token: 'VEtfMjAxNzA3MDcxNTUyMzZfNjY0MThfMjE0Nzgx',
-                    count: '20',
-                    type: '1',
-                    dev: 1
-                },
-                dataType: 'json',
-                type: 'POST',
-                success: function (data) {
-                    this.scrollListLength = data.info.length;
-                    document.querySelector('.scrollOut').style.width = this.scrollListLength * 5 + 'rem';
-                }
-            });
+            // $.ajax({
+            //     // url: 'http://114.55.85.42:2018/winningList',
+            //     url: this.scroll_port,
+            //     data: {
+            //         token: 'VEtfMjAxNzA3MDcxNTUyMzZfNjY0MThfMjE0Nzgx',
+            //         count: '20',
+            //         type: '1',
+            //         dev: 1
+            //     },
+            //     dataType: 'json',
+            //     type: 'POST',
+            //     success: function (data) {
+            //         this.scrollListLength = data.info.length;
+            //         document.querySelector('.scrollOut').style.width = this.scrollListLength * 5 + 'rem';
+            //     }
+            // });
         }
     },
     created: function() {
@@ -152,6 +146,9 @@ body {
         overflow: scroll;
     }
     .view::-webkit-scrollbar{width:0;height:0}
+    .positionStyle{
+        position:absolute!important;
+    }
 
 }
 
