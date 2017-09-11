@@ -173,18 +173,26 @@ export default {
         addImg: function (index) {
             var _this = this;
             this.$refs.picInput.map(function (item) {
-                console.log(item.files[0]);
+                // console.log(item.files[0]);
                 if (item.files[0] !== undefined) {
                     // 接受 jpeg, jpg, png 类型的图片
                     if (!/\/(?:jpeg|jpg|png)/i.test(item.files[0].type)) return;
                     var reader = new FileReader();
-                    reader.onload = function () {
-                        var result = this.result;
-                        _this.imgDataArr.push(result);
-                    };
+                    if (index !== _this.$refs.picInput.length - 1) {
+                        reader.onload = function () {};
+                    } else {
+                        reader.onload = function () {
+                            _this.imgDataArr = [];
+                            var result = this.result;
+                            _this.imgDataArr.push(result);
+                        };
+                    }
                     reader.readAsDataURL(item.files[0]);
                 }
             });
+            console.log('-------------------');
+            console.log(_this.imgDataArr);
+            console.log('-------------------');
         },
         imgShow: function () {
             this.renderArr = this.imgDataArr;
@@ -319,6 +327,15 @@ export default {
                 color: #fff;
 
             }
+        }
+        .menuListSetting {
+            width: calc(100% - 3.8rem);
+            height: 22.66rem;
+            padding: 0.5rem;
+            background-color: #EFD9C7;
+            position: absolute;
+            left: 4rem;
+            display: none;
         }
         .add {
             left:0rem!important;

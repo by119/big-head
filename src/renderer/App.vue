@@ -79,16 +79,17 @@ export default {
     components: {BaseFunction},
     methods: {
         MenuOpen: function () {
-            console.log(this.$refs);
+            // console.log(this.$refs);
             this.isMenuOpen = !this.isMenuOpen;
             if (this.isMenuOpen) {
+                alert('开发中请勿使用');
                 this.openMenuText = '«';
-                document.querySelector('.menuBox').style.width = 'calc(100% - 13.8rem)';
-                document.querySelector('.menuListSetting').style.display = 'block';
+                // document.querySelector('.menuBox').style.width = 'calc(100% - 13.8rem)';
+                // document.querySelector('.menuListSetting').style.display = 'block';
             } else {
                 this.openMenuText = '»';
-                document.querySelector('.menuBox').style.width = '4rem';
-                document.querySelector('.menuListSetting').style.display = 'none';
+                // document.querySelector('.menuBox').style.width = '4rem';
+                // document.querySelector('.menuListSetting').style.display = 'none';
             }
         },
         getScrollListLength: function () {
