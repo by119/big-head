@@ -173,19 +173,17 @@ export default {
         imgShow: function () {
             var _this = this;
             this.imgDataArr = [];
-            for (let i = 0; i < this.pic__number - 1; i++) {
+            for (let i = 0; i < this.pic__number; i++) {
                 _this.imgDataArr.push('');
             }
             this.$refs.picInput.map(function (item, index) {
                 if (item.files[0] !== undefined) {
-                    console.log(item.files[0]);
                     // 接受 jpeg, jpg, png 类型的图片
                     if (!/\/(?:jpeg|jpg|png)/i.test(item.files[0].type)) return;
                     var reader = new FileReader();
                     reader.onload = function () {
-                        console.log(this);
                         var result = this.result;
-                        _this.imgDataArr.splice(index, 0, result);
+                        _this.imgDataArr.splice(index, 1, result);
                     };
                     reader.readAsDataURL(item.files[0]);
                 }
