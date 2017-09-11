@@ -25,7 +25,7 @@
         <el-input v-if="(pic__number != undefined || pic__number.length != 0) && updata == true" v-for="(item,index) in pic__number" v-model="pic[index]" placeholder="请按填写图片cdn"></el-input>
         <el-button v-if="updata == true" @click="preview" style="margin-top: 15px;" type="warning">预览生成页</el-button>
         <div class="" v-if="updata == false">
-            <input v-for="(item,index) in pic__number" type="file" ref="picInput" class="file-input" @change="addImg(index)" multiple webkitRelativePath>
+            <input v-for="item in pic__number" type="file" ref="picInput" class="file-input" multiple webkitRelativePath>
             <div>
                     <el-button style="margin-top:.5rem;" type="primary" @click="imgShow">点击上传</el-button>
             </div>
@@ -170,53 +170,23 @@ export default {
             this.top += 0.1;
             this.$emit('update:render__active_time_top', this.top);
         },
-        addImg: function (index) {
-            // var _this = this;
-            // console.log(this.$refs.picInput);
-            // this.$refs.picInput.map(function (item, index) {
-            //     // console.log(item.files[0]);
-            //     if (item.files[0] !== undefined) {
-            //         // 接受 jpeg, jpg, png 类型的图片
-            //         if (!/\/(?:jpeg|jpg|png)/i.test(item.files[0].type)) return;
-            //         var reader = new FileReader();
-            //         // if (index !== _this.$refs.picInput.length - 1) {
-            //         //     reader.onload = function () {};
-            //         // } else {
-            //         reader.onload = function () {
-            //             // _this.imgDataArr = [];
-            //             var result = this.result;
-            //             console.log(result);
-            //             if (index !== _this.$refs.picInput.length - 1) {
-            //                 _this.imgDataArr.push(result);
-            //             }
-            //             console.log(_this.imgDataArr);
-            //         };
-            //         // }
-            //         reader.readAsDataURL(item.files[0]);
-            //     }
-            // });
-        },
         imgShow: function () {
             var _this = this;
             this.imgDataArr = [];
-            console.log(this.$refs.picInput);
+            for (let i = 0; i < this.pic__number - 1; i++) {
+                _this.imgDataArr.push('');
+            }
             this.$refs.picInput.map(function (item, index) {
-                // console.log(item.files[0]);
                 if (item.files[0] !== undefined) {
+                    console.log(item.files[0]);
                     // 接受 jpeg, jpg, png 类型的图片
                     if (!/\/(?:jpeg|jpg|png)/i.test(item.files[0].type)) return;
                     var reader = new FileReader();
-                    // if (index !== _this.$refs.picInput.length - 1) {
-                    //     reader.onload = function () {};
-                    // } else {
                     reader.onload = function () {
-                        // _this.imgDataArr = [];
+                        console.log(this);
                         var result = this.result;
-                        console.log(result);
-                        _this.imgDataArr.push(result);
-                        console.log(_this.imgDataArr);
+                        _this.imgDataArr.splice(index, 0, result);
                     };
-                    // }
                     reader.readAsDataURL(item.files[0]);
                 }
             });
