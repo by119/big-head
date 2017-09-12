@@ -18,10 +18,10 @@
                         <el-input v-model="scroll_port" placeholder="请输入数据接口 例：http://114.55.85.42:2018/winningList" @change="getScrollListLength"></el-input>
                         <!-- <el-button @click="upheight">上移</el-button> -->
                     </div>
-                    <div v-show="menuListName == '听歌'">
+                    <div v-show="menuListName == '排行榜'">
                         <h5>添加活动标题：</h5>
                     </div>
-                    <div v-show="menuListName == '游泳'">
+                    <div v-show="menuListName == '自定义跳转按钮'">
                         <h5>添加活动标题：</h5>
                     </div>
             </div>
@@ -72,7 +72,7 @@ export default {
             scroll_port:'',
             scrollListLength:0,
             pro: true,
-            menuLists:['头部跑马灯', '听歌', '游泳', '健身', '看电影', '旅游'],
+            menuLists:['排行榜','头部跑马灯','自定义文本框','自定义跳转按钮', '自定义领取按钮', '待开发'],
             menuListName: '头部跑马灯',
         };
     },
@@ -82,7 +82,7 @@ export default {
             // console.log(this.$refs);
             this.isMenuOpen = !this.isMenuOpen;
             if (this.isMenuOpen) {
-                alert('开发中请勿使用');
+                alert('还在开发中,请勿使用');
                 this.openMenuText = '«';
                 // document.querySelector('.menuBox').style.width = 'calc(100% - 13.8rem)';
                 // document.querySelector('.menuListSetting').style.display = 'block';

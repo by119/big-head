@@ -19,13 +19,13 @@
             <el-input v-model="lastPic_height" placeholder="请输入数字（单位:px）例：300" style='width:5.5rem'></el-input>
             <el-button @click="lastheight" style="padding: 10px 20px;">转为rem</el-button>
             <h5>选择图片的添加方式：</h5>
-            <el-switch :width='90' v-model="updata" on-color="#13ce66" off-color="#ff4949" on-text="添加CDN" off-text="本地上传">
+            <el-switch :width='90' v-model="updata" on-color="#13ce66" off-color="#ff4949" on-text="添加CDN" off-text="本地上传" style="margin-bottom:.4rem">
             </el-switch>
         </div>
         <el-input v-if="(pic__number != undefined || pic__number.length != 0) && updata == true" v-for="(item,index) in pic__number" v-model="pic[index]" placeholder="请按填写图片cdn"></el-input>
         <el-button v-if="updata == true" @click="preview" style="margin-top: 15px;" type="warning">预览生成页</el-button>
         <div class="" v-if="updata == false">
-            <input v-for="item in pic__number" type="file" ref="picInput" class="file-input" multiple webkitRelativePath>
+            <input v-for="(item,index) in pic__number" type="file" ref="picInput" class="file-input" multiple webkitRelativePath :style="{ display: index === 0 ? 'block' : 'none' }">
             <div>
                     <el-button style="margin-top:.5rem;" type="primary" @click="imgShow">点击上传</el-button>
             </div>
@@ -173,25 +173,26 @@ export default {
         imgShow: function () {
             var _this = this;
             this.imgDataArr = [];
-            for (let i = 0; i < this.pic__number - 1; i++) {
+            for (let i = 0; i < this.pic__number; i++) {
                 _this.imgDataArr.push('');
             }
+            console.log(this.$refs.picInput);
             this.$refs.picInput.map(function (item, index) {
                 if (item.files[0] !== undefined) {
-                    console.log(item.files[0]);
-                    // 接受 jpeg, jpg, png 类型的图片
-                    if (!/\/(?:jpeg|jpg|png)/i.test(item.files[0].type)) return;
-                    var reader = new FileReader();
-                    reader.onload = function () {
-                        console.log(this);
-                        var result = this.result;
-                        _this.imgDataArr.splice(index, 0, result);
-                    };
-                    reader.readAsDataURL(item.files[0]);
+                    Object.keys(item.files).forEach(function (index) {
+                        if (!/\/(?:jpeg|jpg|png)/i.test(item.files[index].type)) return;
+                        var reader = new FileReader();
+                        reader.readAsDataURL(item.files[index]);
+                        reader.onload = function () {
+                            var result = this.result;
+                            _this.imgDataArr.splice(index, 1, result);
+                        };
+                    });
                 }
             });
             this.renderArr = this.imgDataArr;
             this.$emit('update:render__pic', this.renderArr);
+            console.log(this.imgDataArr);
         }
     },
     watch: {
