@@ -71,7 +71,7 @@ export default {
     data () {
         return {
             input: '',
-            active_time: '活动时间：2017年7月1日-7月3日',
+            active_time: '',
             active_time_color: '',
             top: 5,
             lastPic_height: '750',
@@ -154,7 +154,9 @@ export default {
         },
         preview: function () {
             this.renderArr = this.pic;
+            this.backgroundColor = '#fff';
             this.$emit('update:render__pic', this.renderArr);
+            this.$emit('update:backgroundColor', this.backgroundColor);
         },
         lastheight: function () {
             if (this.lastPic_height !== '') {
@@ -205,8 +207,8 @@ export default {
         active_time: function () {
             if (this.active_time !== '') {
                 console.log(this.active_time);
-                this.$emit('update:render__active_time', this.active_time);
             }
+            this.$emit('update:render__active_time', this.active_time);
         },
         active_title: function () {
             if (this.active_title !== '') {
@@ -230,8 +232,8 @@ export default {
         },
         investment_str: function () {
             if (this.investment_str !== '') {
-                this.$emit('update:render__investment_str', this.investment_str);
             }
+            this.$emit('update:render__investment_str', this.investment_str);
         },
         investment_bg: function () {
             if (this.investment_bg !== '') {
