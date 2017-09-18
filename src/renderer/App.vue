@@ -27,10 +27,10 @@
             </div>
         </div>
         <base-function :render__pic.sync="renderArr" :render__num.sync = "pic__number"  :render__lastPic_height.sync= "lastPic_height" :render__active_time.sync = 'active_time' :render__active_time_color.sync = 'active_time_color' :render__active_time_top.sync = "top" :render__font_size_input.sync = "font_size"
-        :render__investment_str.sync = "investment_str" :render__investment_bg.sync = "investment_bg" :render__investment_color.sync = "investment_color" :render__html="this.$refs" :pro= "pro" />
+        :render__investment_str.sync = "investment_str" :render__investment_bg.sync = "investment_bg" :render__investment_color.sync = "investment_color" :render__html="this.$refs" :pro= "pro" :backgroundColor.sync = "backgroundColor"/>
     </div>
     <div class="iphone">
-        <div class="view">
+        <div class="view" :style="{ backgroundColor: backgroundColor }">
             <div ref="app" style="height:17.75rem;">
                 <div class="container">
                     <div v-if="renderArr.length != 0 && index + 1 != renderArr.length" v-for="(item,index) in pic__number" class="div__size" :style="'background-image:url('+ renderArr[index] +')'"></div>
@@ -54,7 +54,7 @@ export default {
     data() {
         return {
             input: '',
-            active_time: '活动时间：2017年7月1日-7月3日',
+            active_time: '',
             active_time_color: '',
             top: 5,
             isMenuOpen: false,
@@ -72,6 +72,7 @@ export default {
             scroll_port:'',
             scrollListLength:0,
             pro: true,
+            backgroundColor: 'transparent',
             menuLists:['排行榜','头部跑马灯','自定义文本框','自定义跳转按钮', '自定义领取按钮', '待开发'],
             menuListName: '头部跑马灯',
         };
