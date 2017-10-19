@@ -1,20 +1,20 @@
 var dataHeader1 = "<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><meta content='yes' name='apple-mobile-web-app-capable'><meta content='yes' name='apple-touch-fullscreen'><meta content='telephone=no,email=no' name='format-detection'><title>";
-var dataHeader2 = '</title><link rel="stylesheet" href="https://image.ppmiao.com/Public/css/common.css"><link rel="stylesheet" href="https://image.ppmiao.com/Public/css/menu.css">' +
+var dataHeader2 = '</title><link rel="stylesheet" href="https://image.chebeilicai.com/Public/CSS/common.css"><link rel="stylesheet" href="https://image.ppmiao.com/Public/css/menu.css">' +
     '<scr' +
-    'ipt src="https://image.ppmiao.com/Public/js/flexible.js"></scr' +
+    'ipt src="https://image.chebeilicai.com/Public/js/flexible.js"></scr' +
     'ipt><scr' +
-    'ipt src="https://image.ppmiao.com/Public/js/flexible_css.js"></scr' +
+    'ipt src="https://image.chebeilicai.com/Public/js/flexible_css.js"></scr' +
     'ipt><scr' +
-    'ipt src="https://image.ppmiao.com/Public/js/jquery.min.js"></scr' +
+    'ipt src="https://image.chebeilicai.com/Public/js/jquery-1.10.2.min.js"></scr' +
     'ipt>' +
     '<scr' +
-    'ipt src="https://image.ppmiao.com/Public/js/go2app.js"></scr' +
+    'ipt src="https://image.chebeilicai.com/Public/js/go2app.js"></scr' +
     'ipt>' +
     '<scr' +
     'ipt src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript" charset="utf-8">' +
     '</scr' +
     'ipt>';
-var dataHeaderEnd = '</head><body><div style="display:none;"><img src="https://image.ppmiao.com/H5picture/common/300.png" /></div>';
+var dataHeaderEnd = '</head><body><div style="display:none;"><img src="https://image.chebeilicai.com/Public/images/300/300.png" /></div>';
 var dataFooter = '</body></html>';
 var dataGo2AppBefore = '<scr' +
     'ipt>' +
@@ -68,9 +68,9 @@ var dataScroll = `',
                 console.log(this.scrollListLength);
             }
         })
-        $.ajax({
+        /*$.ajax({
               type: 'POST',
-              url: 'https://sailsact.ppmiao.com/wxToken',
+              url: 'https://sailsact.chebeilicai.com/wxToken',
               data: {
                   url: "`;
 var dataWeixin2 = `"
@@ -83,7 +83,7 @@ var dataWeixin2 = `"
                           // 2. 分享接口
                           // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
                           var dataForWeixin = {
-                              img: "https://image.ppmiao.com/H5picture/common/300.png",
+                              img: "https://image.chebeilicai.com/Public/images/300/300.png",
                               linkurl: "`;
 var dataWeixin3 = `",title: "`;
 var dataWeixin4 = `",desc: "`;
@@ -151,7 +151,7 @@ var dataWeixin5 = `",};
                   });
                      },
               dataType: 'json'
-          });
+          });*/
       });
   </scr` + `ipt>`;
 export {dataHeader1, dataHeader2, dataHeaderEnd, dataFooter, dataGo2AppBefore, dataGo2AppAfter, dataWeixin1, dataScroll, dataWeixin2, dataWeixin3, dataWeixin4, dataWeixin5};
