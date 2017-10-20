@@ -2,12 +2,12 @@
 <div class="ButtonSettingView">
     <div class="urlIndex">
         <span style="fontSize:.5rem;">{{NumIndex + 1}}</span>
-        <input type="file" class="file-input" @change="addImg()" webkitRelativePath>
+        <input type="file" class="button-input" @change="addImg(NumIndex)" webkitRelativePath>
     </div>
     <div style="float:left;width:12.2rem">
         <el-input v-model="picConfig[0]" placeholder="URL" class="urlInput" :disabled="inputDisable"></el-input>
         <el-input v-model="picConfig[1]" placeholder="width" class="urlInput-short"></el-input>
-        <el-input v-model="picConfig[2]" placeholder="heght" class="urlInput-short"></el-input>
+        <el-input v-model="picConfig[2]" placeholder="height" class="urlInput-short"></el-input>
         <el-input v-model="picConfig[3]" placeholder="top" class="urlInput-short"></el-input>
         <el-input v-model="picConfig[4]" placeholder="bottom" class="urlInput-short"></el-input>
         <el-input v-model="picConfig[5]" placeholder="left" class="urlInput-short"></el-input>
@@ -84,8 +84,8 @@ export default {
             }
             this.changeState({NumIndex: this.NumIndex, config: this.picConfig});
         },
-        addImg: function () {
-            var files = document.querySelectorAll('.file-input')[0].files;
+        addImg: function (NumIndex) {
+            var files = document.querySelectorAll('.button-input')[NumIndex].files;
             var file = files[0];
             var _this = this;
             if (!/\/(?:jpeg|jpg|png)/i.test(file.type)) return;

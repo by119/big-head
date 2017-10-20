@@ -5,6 +5,8 @@
                  bottom: item.bottom + 'rem',
                  right: item.right + 'rem',
                  left: item.left + 'rem',
+                 width: item.width + 'rem',
+                 height: item.height + 'rem',
                  backgroundImage: item.backgroundImage
                  }" :onClick=item.jumpto></div>
     </div>

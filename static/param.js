@@ -43,7 +43,7 @@ var dataWeixin1 = `<scr` + `ipt>` + `function getQueryString(name) {
     var result = "";
       $(document).ready(function() {
           // 头部跑马灯数据
-          $.ajax({
+          /*$.ajax({
             url: '`;
 var dataScroll = `',
             data: {
@@ -67,7 +67,7 @@ var dataScroll = `',
                 this.scrollListLength = len;
                 console.log(this.scrollListLength);
             }
-        })
+        })*/
         /*$.ajax({
               type: 'POST',
               url: 'https://sailsact.chebeilicai.com/wxToken',
