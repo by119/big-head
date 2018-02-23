@@ -32,7 +32,7 @@
         <button-setting v-show="this.$store.state.GlobalVal.showView == 1"></button-setting>
     </div>
     <div class="iphone">
-        <div class="newIphone"></div>
+        <!-- <div class="newIphone"></div> -->
         <div class="view" :style="{ backgroundColor: backgroundColor }">
             <div ref="app" style="height:17.75rem;">
                 <div class="container">

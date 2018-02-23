@@ -7,7 +7,7 @@
             <h5>添加活动介绍：</h5>
             <el-input v-model="active_desc" placeholder="请输入活动介绍 例：华安未来战略入股 收益开启安全加速"></el-input>
             <h5>添加活动链接地址：</h5>
-            <el-input v-model="active_url" placeholder="请输入活动链接地址 例：https://image.chebeilicai.com/Act/Activity/Notice0922_Autumn/index.html"></el-input>
+            <el-input v-model="active_url" placeholder="请输入活动链接地址 例：https://image.ppmiao.com/Act/Activity/Notice0922_Autumn/index.html"></el-input>
         </div>
         <div class="first-pic">
             <h5>设置图片数量：</h5>
