@@ -1,6 +1,7 @@
 <template>
 <div id="app">
     <div class="setting">
+        <div id="particles-js"></div>
         <div :class="{'menuBox':true,'add':isMenuOpen}">
             <div class="menu">
                 <div class="openMenuBox">
@@ -26,10 +27,12 @@
                     </div>
             </div>
         </div>
-        <base-function :render__pic.sync="renderArr" :render__num.sync = "pic__number"  :render__lastPic_height.sync= "lastPic_height" :render__active_time.sync = 'active_time' :render__active_time_color.sync = 'active_time_color' :render__active_time_top.sync = "top" :render__font_size_input.sync = "font_size"
+        <base-function v-show="this.$store.state.GlobalVal.showView == 0" :render__pic.sync="renderArr" :render__num.sync = "pic__number"  :render__lastPic_height.sync= "lastPic_height" :render__active_time.sync = 'active_time' :render__active_time_color.sync = 'active_time_color' :render__active_time_top.sync = "top" :render__font_size_input.sync = "font_size"
         :render__investment_str.sync = "investment_str" :render__investment_bg.sync = "investment_bg" :render__investment_color.sync = "investment_color" :render__html="this.$refs" :pro= "pro" :backgroundColor.sync = "backgroundColor"/>
+        <button-setting v-show="this.$store.state.GlobalVal.showView == 1"></button-setting>
     </div>
     <div class="iphone">
+        <div class="newIphone"></div>
         <div class="view" :style="{ backgroundColor: backgroundColor }">
             <div ref="app" style="height:17.75rem;">
                 <div class="container">
@@ -37,6 +40,7 @@
                     <div v-else class="div__size" :style="'background-image:url('+ renderArr[index] +');height:'+lastPic_height"></div>
                     <p class="event-date" :style="'top:'+ top + 'rem;' + 'font-size:'+ font_size + ';color:' + active_time_color + ';font-family: PingFangSC-Regular!important'">{{active_time}}</p>
                 </div>
+                <custom-button></custom-button>
                 <div v-show="investment_str !== ''"
                 :class="[{ positionStyle: pro }, 'investment']" :style="'color:' + investment_color +
                   ';background-color:' + investment_bg + ';font-family: PingFangSC-Regular!important'">{{investment_str}}</div>
@@ -47,8 +51,15 @@
 </div>
 </template>
 <script>
+/* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
+particlesJS.load('particles-js', '../../src/renderer/assets/particles.json', function() {
+  console.log('callback - particles.js config loaded');
+});
 // import $ from 'jquery';
 import BaseFunction from './components/base.vue';
+import CustomButton from './components/CustomButton.vue';
+import ButtonSetting from './components/ButtonSetting.vue';
+import { mapGetters, mapActions } from 'vuex';
 export default {
     name: 'big-head',
     data() {
@@ -73,26 +84,35 @@ export default {
             scrollListLength:0,
             pro: true,
             backgroundColor: 'transparent',
-            menuLists:['排行榜','头部跑马灯','自定义文本框','自定义跳转按钮', '自定义领取按钮', '待开发'],
-            menuListName: '头部跑马灯',
+            menuLists:['基本配置','自定义跳转按钮','排行榜','头部跑马灯','自定义文本框', '自定义领取按钮', '待开发'],
+            menuListName: '排行榜',
         };
     },
-    components: {BaseFunction},
+    components: {
+        BaseFunction,
+        CustomButton,
+        ButtonSetting},
+    computed: mapGetters([]),
     methods: {
+        ...mapActions(['changeMenu', 'changeView']),
         MenuOpen: function () {
-            // console.log(this.$refs);
             this.isMenuOpen = !this.isMenuOpen;
             if (this.isMenuOpen) {
-                alert('还在开发中,请勿使用');
                 this.openMenuText = '«';
-                // document.querySelector('.menuBox').style.width = 'calc(100% - 13.8rem)';
-                // document.querySelector('.menuListSetting').style.display = 'block';
+                this.changeMenu(1);
             } else {
                 this.openMenuText = '»';
-                // document.querySelector('.menuBox').style.width = '4rem';
-                // document.querySelector('.menuListSetting').style.display = 'none';
+                this.changeMenu(0);
             }
         },
+        selecteMenu: function(index){console.log(index);
+        if(index === '自定义跳转按钮'){
+            this.changeView(1);
+        } else if (index === '基本配置'){
+            this.changeView(0);
+        } else {
+            alert('待开发')
+        }},
         getScrollListLength: function () {
             // $.ajax({
             //     // url: 'http://114.55.85.42:2018/winningList',
@@ -124,8 +144,26 @@ html {
 body {
     height: 100%;
 }
+#particles-js {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 0;
+}
 #app {
     font-family: Helvetica, sans-serif;
+    .newIphone{
+        width: 10rem;
+        background-image: url(./assets/iPhone8.jpg);
+        background-repeat: no-repeat;
+        background-size: 100%;
+        position: relative;
+        height: 18rem;
+        float: right;
+        right: .84rem;
+        top: 2.8rem;
+    }
     .iphone{
         width: 11.62rem;
         background-image: url(./assets/iphone.png);
@@ -201,8 +239,6 @@ body {
 from {left:0rem;}
 to {left:-100%;}
 }
-.investment{
 
-}
 
 </style>

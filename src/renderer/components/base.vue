@@ -7,7 +7,7 @@
             <h5>添加活动介绍：</h5>
             <el-input v-model="active_desc" placeholder="请输入活动介绍 例：华安未来战略入股 收益开启安全加速"></el-input>
             <h5>添加活动链接地址：</h5>
-            <el-input v-model="active_url" placeholder="请输入活动链接地址 例：https://image.ppmiao.com/Public/activity/Notice20170717_alliance/index.html"></el-input>
+            <el-input v-model="active_url" placeholder="请输入活动链接地址 例：https://image.chebeilicai.com/Act/Activity/Notice0922_Autumn/index.html"></el-input>
         </div>
         <div class="first-pic">
             <h5>设置图片数量：</h5>
@@ -270,7 +270,7 @@ export default {
 
 <style lang="scss">
     .setting {
-        background-color: #EFD9C7;
+        background-color: #AFD8EC;
         width: calc(100% - 13.8rem);
         padding: 0 0.8rem;
         position: absolute;
@@ -279,6 +279,10 @@ export default {
         left: 0;
         overflow: scroll;
         min-height: 25rem;
+        .base {
+            position: relative;
+            z-index: 20;
+        }
         .file-input{
             background-color: #fff;
             background-image: none;
@@ -309,7 +313,7 @@ export default {
                 width: 25px;
                 height: 50px;
                 position: absolute;
-                background-color: #FCD6A1;
+                background-color: #222D32;
                 z-index: 12;
             }
             .openMenu {
@@ -320,9 +324,9 @@ export default {
                 position: absolute;
                 border-radius: 50%;
                 position: absolute;
-                // background-color: #F56C00;
-                background-color: rgba(245,108,0,0.5);
+                background-color: #222D32;
                 color: #fff;
+                opacity: .9;
 
             }
         }
@@ -348,10 +352,11 @@ export default {
         }
         .menu {
             position: absolute;
-            background-color: #FCD6A1;
+            background-color: #222D32;
             float: left;
             width: 4rem;
-            height: 100%;
+            height: 26rem;
+            opacity: .9;
             ul {
                 width: 100%;
                 .list {
@@ -365,7 +370,7 @@ export default {
                     line-height: 1rem;
                     text-align: center;
                     font-size: 18px;
-                    color: #333;
+                    color: #fff;
                 }
                 .active {
                     background-color: rgba(245,108,0,0.5);
