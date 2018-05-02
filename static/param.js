@@ -8,13 +8,13 @@ var dataHeader2 = '</title><link rel="stylesheet" href="https://image.ppmiao.com
     'ipt src="https://image.ppmiao.com/Public/js/jquery-1.10.2.min.js"></scr' +
     'ipt>' +
     '<scr' +
-    'ipt src="https://image.ppmiao.com/Public/js/go2app.js"></scr' +
+    'ipt src="https://image.ppmiao.com/Public/js/util.js"></scr' +
     'ipt>' +
     '<scr' +
     'ipt src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript" charset="utf-8">' +
     '</scr' +
     'ipt>';
-var dataHeaderEnd = '</head><body><div style="display:none;"><img src="https://image.ppmiao.com/H5picture/common/300.png" /></div>';
+var dataHeaderEnd = '</head><body>';
 var dataFooter = '</body></html>';
 var dataGo2AppBefore = '<scr' +
     'ipt>' +
@@ -38,9 +38,24 @@ var dataWeixin1 = `<scr` + `ipt>` + `function getQueryString(name) {
             versionName = versionName
         }
     }
-    token = 'VEtfMjAxNzA3MDcxNTUyMzZfNjY0MThfMjE0Nzgx';
-
     var result = "";
+    $.ajax({
+        url: 'https://sailsact.ppmiao.com/getAppStartupConfig',
+        type: "POST",
+        data: {
+          versionName: versionName
+        },
+        //返回数据的格式
+        datatype: "json", //"xml", "html", "script", "json", "jsonp", "text".
+        //成功返回之后调用的函数
+        success: function(data) {
+          // console.log(data);
+          var integralUrl = data.result.vip_mall_url.split('|')[0];
+          $('.member-button-body').click(function() {
+            window.location.href = integralUrl + "?version=" + versionName + "&mobile=" + mobile + "&data=" + token;
+          });
+        }
+    });
       $(document).ready(function() {
           // 头部跑马灯数据
           /*$.ajax({

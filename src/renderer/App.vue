@@ -30,6 +30,7 @@
         <base-function v-show="this.$store.state.GlobalVal.showView == 0" :render__pic.sync="renderArr" :render__num.sync = "pic__number"  :render__lastPic_height.sync= "lastPic_height" :render__active_time.sync = 'active_time' :render__active_time_color.sync = 'active_time_color' :render__active_time_top.sync = "top" :render__font_size_input.sync = "font_size"
         :render__investment_str.sync = "investment_str" :render__investment_bg.sync = "investment_bg" :render__investment_color.sync = "investment_color" :render__html="this.$refs" :pro= "pro" :backgroundColor.sync = "backgroundColor"/>
         <button-setting v-show="this.$store.state.GlobalVal.showView == 1"></button-setting>
+        <to-member></to-member>
     </div>
     <div class="iphone">
         <!-- <div class="newIphone"></div> -->
@@ -39,6 +40,7 @@
                     <div v-if="renderArr.length != 0 && index + 1 != renderArr.length" v-for="(item,index) in pic__number" class="div__size" :style="'background-image:url('+ renderArr[index] +')'"></div>
                     <div v-else class="div__size" :style="'background-image:url('+ renderArr[index] +');height:'+lastPic_height"></div>
                     <p class="event-date" :style="'top:'+ top + 'rem;' + 'font-size:'+ font_size + ';color:' + active_time_color + ';font-family: PingFangSC-Regular!important'">{{active_time}}</p>
+                    <member-button :style="{position: 'relative'}"></member-button>
                 </div>
                 <custom-button></custom-button>
                 <div v-show="investment_str !== ''"
@@ -57,6 +59,8 @@ particlesJS.load('particles-js', '../../src/renderer/assets/particles.json', fun
 });
 // import $ from 'jquery';
 import BaseFunction from './components/base.vue';
+import ToMember from './components/tomember.vue';
+import MemberButton from './components/MemberButton.vue';
 import CustomButton from './components/CustomButton.vue';
 import ButtonSetting from './components/ButtonSetting.vue';
 import { mapGetters, mapActions } from 'vuex';
@@ -90,6 +94,8 @@ export default {
     },
     components: {
         BaseFunction,
+        ToMember,
+        MemberButton,
         CustomButton,
         ButtonSetting},
     computed: mapGetters([]),
@@ -231,8 +237,6 @@ body {
 			}
 		}
 	}
-
-
 }
 @keyframes scrollAct
 {

@@ -1,5 +1,5 @@
 <template>
-<div class="base">
+<div class="basebox">
     <div class="setList">
         <div style="max-width:17rem;">
             <h5>添加活动标题：</h5>
@@ -67,7 +67,7 @@
 <script>
 import {dataHeader1, dataHeader2, dataHeaderEnd, dataFooter, dataGo2AppBefore, dataGo2AppAfter, dataWeixin1, dataScroll, dataWeixin2, dataWeixin3, dataWeixin4, dataWeixin5} from '../../../static/param';
 export default {
-    name: 'base',
+    name: 'basebox',
     data () {
         return {
             input: '',
@@ -178,7 +178,7 @@ export default {
             for (let i = 0; i < this.pic__number; i++) {
                 _this.imgDataArr.push('');
             }
-            console.log(this.$refs.picInput);
+            // console.log(this.$refs.picInput);
             this.$refs.picInput.map(function (item, index) {
                 if (item.files[0] !== undefined) {
                     Object.keys(item.files).forEach(function (index) {
@@ -194,7 +194,7 @@ export default {
             });
             this.renderArr = this.imgDataArr;
             this.$emit('update:render__pic', this.renderArr);
-            console.log(this.imgDataArr);
+            // console.log(this.imgDataArr);
         }
     },
     watch: {
@@ -279,7 +279,7 @@ export default {
         left: 0;
         overflow: scroll;
         min-height: 25rem;
-        .base {
+        .basebox {
             position: relative;
             z-index: 20;
         }
