@@ -1,11 +1,11 @@
 const state = {
     tomember_str: '',
-    tomember_width: '4.5',
+    tomember_width: '3.8',
     tomember_line: '0.96',
     tomember_size: '0.43',
     tomember_radius: '0.3',
-    tomember_color: '3.73',
-    tomember_bgc: '#506651',
+    tomember_color: '#fff',
+    tomember_bgc: '#489cf7',
     tomember_bottom: '4.5'
 };
 

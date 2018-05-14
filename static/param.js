@@ -1,4 +1,8 @@
-var dataHeader1 = "<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><meta content='yes' name='apple-mobile-web-app-capable'><meta content='yes' name='apple-touch-fullscreen'><meta content='telephone=no,email=no' name='format-detection'><title>";
+var dataHeader1 = "<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'>" +
+"<meta name='viewport' content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,viewport-fit=cover' />" +
+"<meta content='yes' name='apple-mobile-web-app-capable'>" +
+"<meta content='yes' name='apple-touch-fullscreen'>" +
+"<meta content='telephone=no,email=no' name='format-detection'><title>";
 var dataHeader2 = '</title><link rel="stylesheet" href="https://image.ppmiao.com/Public/css/common.css"><link rel="stylesheet" href="https://image.ppmiao.com/Public/css/menu.css">' +
     '<scr' +
     'ipt src="https://image.ppmiao.com/Public/js/flexible.js"></scr' +
